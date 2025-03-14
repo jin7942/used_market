@@ -2,6 +2,7 @@ package com.jin7942.usedmarket.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import com.jin7942.usedmarket.common.utill.Utill;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -17,7 +18,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * 상품 엔티티 정의
+ * item 엔티티 정의
  */
 @Entity
 @Getter
@@ -33,7 +34,7 @@ public class Item {
 
   @ManyToOne
   @JoinColumn(name = "user_seq", nullable = false) // FK
-  private User seller;
+  private User user_seq; // seller
 
   // 상품 제목
   @Column(name = "itemTitle", nullable = false, length = 255)
@@ -62,13 +63,13 @@ public class Item {
   // 엔티티가 처음 생성될 때 자동으로 현재 날짜 저장
   @PrePersist
   protected void onCreate() {
-    this.itemCreateDT = LocalDateTime.now();
+    this.itemCreateDT = Utill.getCurrentTime();
   }
 
   // 엔티티가 업데이트될 때 자동으로 현재 날짜 저장
   @PreUpdate
   protected void onUpdate() {
-    this.itemUpdateDT = LocalDateTime.now();
+    this.itemUpdateDT = Utill.getCurrentTime();
   }
 
 }
