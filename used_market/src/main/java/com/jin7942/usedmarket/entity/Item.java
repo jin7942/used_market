@@ -37,7 +37,7 @@ public class Item {
 
   @ManyToOne
   @JoinColumn(name = "user_seq", nullable = false) // FK
-  private User user; // 판매자
+  private User userSeq; // 판매자
 
   // 상품 제목
   @Column(name = "itemTitle", nullable = false, length = 255)
@@ -68,6 +68,7 @@ public class Item {
   @PrePersist
   protected void onCreate() {
     this.itemCreateDT = Utill.getCurrentTime();
+    this.itemUpdateDT = Utill.getCurrentTime();
   }
 
   // 엔티티가 업데이트될 때 자동으로 현재 날짜 저장

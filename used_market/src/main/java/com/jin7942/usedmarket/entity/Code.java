@@ -27,7 +27,7 @@ public class Code {
 
   @ManyToOne
   @JoinColumn(name = "codeGroup_seq", nullable = false) // FK
-  private CodeGroup codeGroup_seq; // 코드 그룹
+  private CodeGroup codeGroupSeq; // 코드 그룹
 
   // 코드 이름
   @Column(name = "codeName", nullable = false)

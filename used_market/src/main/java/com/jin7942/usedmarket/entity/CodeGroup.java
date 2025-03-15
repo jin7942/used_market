@@ -30,3 +30,5 @@ public class CodeGroup {
   private String codeGroupName;
 
 }
+
+// TODO: DB에 공통코드 데이터 입력

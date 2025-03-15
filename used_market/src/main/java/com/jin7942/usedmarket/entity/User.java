@@ -35,7 +35,7 @@ public class User {
   private int seq; // PK
 
   // 유저 이메일
-  @Column(name = "userEmail", nullable = false)
+  @Column(name = "userEmail", nullable = false, unique = true)
   private String userEmail;
 
   // 유저 비밀번호
