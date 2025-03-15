@@ -1,9 +1,13 @@
 package com.jin7942.usedmarket.entity;
 
 import java.time.LocalDateTime;
+import com.jin7942.usedmarket.common.enums.CommonCode.UserRoleCode;
+import com.jin7942.usedmarket.common.enums.CommonCode.UserStatusCode;
 import com.jin7942.usedmarket.common.utill.Utill;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -44,11 +48,11 @@ public class User {
 
   // 유저 프로필 이미지 URL
   // TODO: 이미지 처리기능 만들어야됨
-  @Column(name = "userProfileImg")
+  @Column(name = "userProfileImg", nullable = false)
   private String userProfileImg;
 
   // 유저 생성 날짜
-  @Column(name = "userCreateDT", nullable = false)
+  @Column(name = "userCreateDT", nullable = false, updatable = false)
   private LocalDateTime userCreateDT;
 
   // 유저 수정 날짜
@@ -67,16 +71,15 @@ public class User {
     this.userUpdateDT = Utill.getCurrentTime();
   }
 
-  /**
-   * 공통 코드 TODO: 공통 코드 ERUM 설정 해야됨
-   */
-  // 유저 권한
+  // 유저 권한(공통 코드)
+  @Enumerated(EnumType.STRING)
   @Column(name = "userRoleCode", nullable = false)
-  private int userRoleCode;
+  private UserRoleCode userRoleCode = UserRoleCode.USER;
 
   // 유저 상태
-  @Column(name = "userStateCode")
-  private int userStateCode;
+  @Enumerated(EnumType.STRING)
+  @Column(name = "userStateCode", nullable = false)
+  private UserStatusCode userStateCode = UserStatusCode.ACTIVE;
 
 
 }

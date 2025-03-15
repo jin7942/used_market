@@ -2,9 +2,12 @@ package com.jin7942.usedmarket.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import com.jin7942.usedmarket.common.enums.CommonCode.ItemStatusCode;
 import com.jin7942.usedmarket.common.utill.Utill;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -34,7 +37,7 @@ public class Item {
 
   @ManyToOne
   @JoinColumn(name = "user_seq", nullable = false) // FK
-  private User user_seq; // seller
+  private User user; // 판매자
 
   // 상품 제목
   @Column(name = "itemTitle", nullable = false, length = 255)
@@ -48,16 +51,17 @@ public class Item {
   @Column(name = "itemPrice", nullable = false)
   private BigDecimal itemPrice;
 
-  // 상품 상태
+  // 상품 상태(공통 코드)
+  @Enumerated(EnumType.STRING)
   @Column(name = "itemStateCode", nullable = false)
-  private int itemStateCode;
+  private ItemStatusCode itemStateCode = ItemStatusCode.SELLING;
 
   // 등록 날짜 (자동 설정)
-  @Column(name = "itemCreateDT", updatable = false)
+  @Column(name = "itemCreateDT", nullable = false, updatable = false)
   private LocalDateTime itemCreateDT;
 
   // 수정 날짜 (자동 설정)
-  @Column(name = "itemUpdateDT")
+  @Column(name = "itemUpdateDT", nullable = false)
   private LocalDateTime itemUpdateDT;
 
   // 엔티티가 처음 생성될 때 자동으로 현재 날짜 저장
