@@ -18,7 +18,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Table(name = "codeGroup")
-public class CodeGroup {
+public class CodeGroup extends BaseEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +26,7 @@ public class CodeGroup {
   private int seq; // PK
 
   // 코드 그룹 이름
-  @Column(name = "codeGroupName")
+  @Column(name = "codeGroupName", nullable = false)
   private String codeGroupName;
 
 }

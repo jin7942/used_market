@@ -1,9 +1,7 @@
 package com.jin7942.usedmarket.entity;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import com.jin7942.usedmarket.common.enums.CommonCode.OrderStatusCode;
-import com.jin7942.usedmarket.common.utill.Utill;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -13,8 +11,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,10 +23,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "order")
-public class Order {
+@Table(name = "orders")
+public class Orders extends BaseEntity {
 
-  // TODO: DB 수정, 판매자 정보 등록
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "seq")
@@ -44,6 +39,9 @@ public class Order {
   @JoinColumn(name = "item_seq", nullable = false) // FK
   private Item itemSeq; // 주문한 상품
 
+  @JoinColumn(name = "orderByerSeq", nullable = false) // FK
+  private int orderByerSeq; // 판매자
+
   // 주문 상태 (공통 코드)
   @Enumerated(EnumType.STRING)
   @Column(name = "orderStateCode", nullable = false)
@@ -52,23 +50,5 @@ public class Order {
   // 결제 금액
   @Column(name = "orderPrice", nullable = false)
   private BigDecimal orderPrice;
-
-  // 주문 생성 및 수정 날짜
-  @Column(name = "orderCreateDT", nullable = false, updatable = false)
-  private LocalDateTime orderCreateDT;
-
-  @Column(name = "orderUpdateDT", nullable = false)
-  private LocalDateTime orderUpdateDT;
-
-  @PrePersist
-  protected void onCreate() {
-    this.orderCreateDT = Utill.getCurrentTime();
-    this.orderUpdateDT = Utill.getCurrentTime();
-  }
-
-  @PreUpdate
-  protected void onUpdate() {
-    this.orderUpdateDT = Utill.getCurrentTime();
-  }
 
 }

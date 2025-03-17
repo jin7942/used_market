@@ -1,9 +1,7 @@
 package com.jin7942.usedmarket.entity;
 
-import java.time.LocalDateTime;
 import com.jin7942.usedmarket.common.enums.CommonCode.UserRoleCode;
 import com.jin7942.usedmarket.common.enums.CommonCode.UserStatusCode;
-import com.jin7942.usedmarket.common.utill.Utill;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -11,8 +9,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,13 +17,12 @@ import lombok.Setter;
 /**
  * user 엔티티 정의
  */
-
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @Table(name = "user")
-public class User {
+public class User extends BaseEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,26 +46,6 @@ public class User {
   @Column(name = "userProfileImg", nullable = false)
   private String userProfileImg;
 
-  // 유저 생성 날짜
-  @Column(name = "userCreateDT", nullable = false, updatable = false)
-  private LocalDateTime userCreateDT;
-
-  // 유저 수정 날짜
-  @Column(name = "userUpdateDT", nullable = false)
-  private LocalDateTime userUpdateDT;
-
-  // 엔티티가 처음 생성될 때 자동으로 현재 날짜 저장
-  @PrePersist
-  protected void onCreate() {
-    this.userCreateDT = Utill.getCurrentTime();
-  }
-
-  // 엔티티가 업데이트될 때 자동으로 현재 날짜 저장
-  @PreUpdate
-  protected void onUpdate() {
-    this.userUpdateDT = Utill.getCurrentTime();
-  }
-
   // 유저 권한(공통 코드)
   @Enumerated(EnumType.STRING)
   @Column(name = "userRoleCode", nullable = false)
@@ -80,6 +55,5 @@ public class User {
   @Enumerated(EnumType.STRING)
   @Column(name = "userStateCode", nullable = false)
   private UserStatusCode userStateCode = UserStatusCode.ACTIVE;
-
 
 }

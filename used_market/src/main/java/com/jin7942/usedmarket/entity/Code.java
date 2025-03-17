@@ -19,7 +19,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Table(name = "code")
-public class Code {
+public class Code extends BaseEntity {
 
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "seq")

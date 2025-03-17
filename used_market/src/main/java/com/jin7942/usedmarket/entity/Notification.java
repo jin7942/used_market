@@ -1,8 +1,6 @@
 package com.jin7942.usedmarket.entity;
 
-import java.time.LocalDateTime;
 import com.jin7942.usedmarket.common.enums.CommonCode.NotificationTypeCode;
-import com.jin7942.usedmarket.common.utill.Utill;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -12,7 +10,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,7 +24,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Table(name = "notification")
-public class Notification {
+public class Notification extends BaseEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,15 +47,5 @@ public class Notification {
   // 알림 수신 여부
   @Column(name = "notificationReadNY", nullable = false)
   private boolean notificationReadNY = false;
-
-  // 알림 등록 날짜 (자동 설정)
-  @Column(name = "notificationCreateDT", nullable = false, updatable = false)
-  private LocalDateTime notificationCreateDT;
-
-  // 엔티티가 처음 생성될 때 자동으로 현재 날짜 저장
-  @PrePersist
-  protected void onCreate() {
-    this.notificationCreateDT = Utill.getCurrentTime();
-  }
 
 }
