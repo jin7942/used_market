@@ -1,8 +1,7 @@
-package com.jinfw.infra.usedmarket.userreview;
+package com.jinfw.infra.usedmarket.user;
 
 import com.jinfw.infra.usedmarket.common.base.BaseEntity;
 import com.jinfw.infra.usedmarket.common.constants.CommonCode.UserReviewStatusCode;
-import com.jinfw.infra.usedmarket.user.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
