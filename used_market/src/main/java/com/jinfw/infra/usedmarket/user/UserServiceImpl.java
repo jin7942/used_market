@@ -1,5 +1,12 @@
 package com.jinfw.infra.usedmarket.user;
 
-public class UserServiceImpl implements UserService {
+import org.springframework.stereotype.Service;
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class UserServiceImpl {
+
+  private final UserRepository userRepository;
 
 }
