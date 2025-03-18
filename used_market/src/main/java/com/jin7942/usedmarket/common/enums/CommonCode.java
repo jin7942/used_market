@@ -1,7 +1,5 @@
 package com.jin7942.usedmarket.common.enums;
 
-// TODO: db 공통 코드 데이터 입력
-// TODO: db 연동 확인
 // TODO: 리파지토리 계층 구현
 /**
  * 공통 코드 부분 ENUM 정의

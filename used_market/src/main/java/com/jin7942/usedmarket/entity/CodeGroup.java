@@ -17,7 +17,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "codeGroup")
+@Table(name = "codegroup")
 public class CodeGroup extends BaseEntity {
 
   @Id
@@ -31,4 +31,3 @@ public class CodeGroup extends BaseEntity {
 
 }
 
-// TODO: DB에 공통코드 데이터 입력

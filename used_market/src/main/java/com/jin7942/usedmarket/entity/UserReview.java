@@ -23,7 +23,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "userReview")
+@Table(name = "userreview")
 public class UserReview extends BaseEntity {
 
   @Id

@@ -3,7 +3,7 @@ package com.jin7942.usedmarket.entity;
 import java.time.LocalDateTime;
 import com.jin7942.usedmarket.common.utill.Utill;
 import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
+import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import lombok.Getter;
@@ -15,10 +15,10 @@ import lombok.Setter;
  * 
  * 날짜 생성, 업데이트 함수 정의
  */
-@Entity
 @Getter
 @Setter
 @NoArgsConstructor
+@MappedSuperclass
 public class BaseEntity {
   @Column(name = "createDT", nullable = false, updatable = false)
   private LocalDateTime createDT; // 생성 날짜
@@ -33,8 +33,10 @@ public class BaseEntity {
    */
   @PrePersist
   protected void onCreate() {
-    this.createDT = Utill.getCurrentTime();
-    this.updateDT = Utill.getCurrentTime();
+    if (this.createDT == null && this.updateDT == null) {
+      this.createDT = Utill.getCurrentTime();
+      this.updateDT = Utill.getCurrentTime();
+    }
   }
 
   /**
