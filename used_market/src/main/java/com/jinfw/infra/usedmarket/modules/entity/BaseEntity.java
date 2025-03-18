@@ -1,7 +1,7 @@
-package com.jin7942.usedmarket.entity;
+package com.jinfw.infra.usedmarket.modules.entity;
 
 import java.time.LocalDateTime;
-import com.jin7942.usedmarket.common.utill.Utill;
+import com.jinfw.infra.usedmarket.common.utill.Utill;
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.PrePersist;

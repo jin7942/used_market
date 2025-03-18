@@ -1,6 +1,6 @@
-package com.jin7942.usedmarket.entity;
+package com.jinfw.infra.usedmarket.modules.entity;
 
-import com.jin7942.usedmarket.common.enums.CommonCode.UserReviewStatusCode;
+import com.jinfw.infra.usedmarket.common.enums.CommonCode.UserReviewStatusCode;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

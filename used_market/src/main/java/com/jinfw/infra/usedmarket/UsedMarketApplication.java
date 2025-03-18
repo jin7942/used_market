@@ -1,4 +1,4 @@
-package com.jin7942.usedmarket;
+package com.jinfw.infra.usedmarket;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

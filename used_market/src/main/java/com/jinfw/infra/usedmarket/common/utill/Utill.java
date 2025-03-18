@@ -1,4 +1,4 @@
-package com.jin7942.usedmarket.common.utill;
+package com.jinfw.infra.usedmarket.common.utill;
 
 import java.time.LocalDateTime;
 

@@ -1,4 +1,4 @@
-package com.jin7942.usedmarket.entity;
+package com.jinfw.infra.usedmarket.modules.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

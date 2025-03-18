@@ -1,4 +1,4 @@
-package com.jin7942.usedmarket.security;
+package com.jinfw.infra.usedmarket.common.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

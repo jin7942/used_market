@@ -1,4 +1,4 @@
-package com.jin7942.usedmarket.common.enums;
+package com.jinfw.infra.usedmarket.common.enums;
 
 // TODO: 리파지토리 계층 구현
 /**
