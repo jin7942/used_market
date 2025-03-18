@@ -1,6 +1,8 @@
-package com.jinfw.infra.usedmarket.modules.entity;
+package com.jinfw.infra.usedmarket.notification;
 
-import com.jinfw.infra.usedmarket.common.enums.CommonCode.NotificationTypeCode;
+import com.jinfw.infra.usedmarket.common.base.BaseEntity;
+import com.jinfw.infra.usedmarket.common.constants.CommonCode.NotificationTypeCode;
+import com.jinfw.infra.usedmarket.user.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

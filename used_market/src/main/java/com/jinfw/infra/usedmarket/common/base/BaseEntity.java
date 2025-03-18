@@ -1,4 +1,4 @@
-package com.jinfw.infra.usedmarket.modules.entity;
+package com.jinfw.infra.usedmarket.common.base;
 
 import java.time.LocalDateTime;
 import com.jinfw.infra.usedmarket.common.utill.Utill;

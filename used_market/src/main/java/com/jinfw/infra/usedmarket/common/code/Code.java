@@ -1,5 +1,6 @@
-package com.jinfw.infra.usedmarket.modules.entity;
+package com.jinfw.infra.usedmarket.common.code;
 
+import com.jinfw.infra.usedmarket.common.base.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

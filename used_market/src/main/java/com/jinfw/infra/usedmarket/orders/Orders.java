@@ -1,7 +1,10 @@
-package com.jinfw.infra.usedmarket.modules.entity;
+package com.jinfw.infra.usedmarket.orders;
 
 import java.math.BigDecimal;
-import com.jinfw.infra.usedmarket.common.enums.CommonCode.OrderStatusCode;
+import com.jinfw.infra.usedmarket.common.base.BaseEntity;
+import com.jinfw.infra.usedmarket.common.constants.CommonCode.OrderStatusCode;
+import com.jinfw.infra.usedmarket.item.Item;
+import com.jinfw.infra.usedmarket.user.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
