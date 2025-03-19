@@ -8,6 +8,7 @@ import com.jinfw.infra.usedmarket.common.constants.CommonCode.UserRoleCode;
 import com.jinfw.infra.usedmarket.common.constants.CommonCode.UserStatusCode;
 import com.jinfw.infra.usedmarket.common.exception.InvalidLoginException;
 import com.jinfw.infra.usedmarket.common.util.UtilDtoConverter;
+import com.jinfw.infra.usedmarket.common.util.UtilJwt;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -17,6 +18,7 @@ public class UserServiceImpl {
   private final UserRepository userRepository;
   private final BCryptPasswordEncoder passwordEncoder; // 비밀번호 암호화
   private final UtilDtoConverter dtoConverter; // DTO 변환 유틸
+  private final UtilJwt utilJwt;
 
   /**
    * 로그인
@@ -35,10 +37,14 @@ public class UserServiceImpl {
       throw new InvalidLoginException("이메일 또는 비밀번호가 올바르지 않습니다.");
     }
 
-    // 3. 로그인 성공 시 필요한 데이터만 반환
+    // 3. JWT 토큰 생성
+    String token = utilJwt.generateToken(user.getUserEmail());
+
+    // 4. 로그인 성공 시 필요한 데이터만 반환
     Map<String, Object> res = new HashMap<>();
     res.put("seq", user.getSeq());
     res.put("userNickname", user.getUserNickname());
+    res.put("token", token);
 
     return res;
   }

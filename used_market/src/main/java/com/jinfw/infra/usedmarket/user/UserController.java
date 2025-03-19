@@ -21,7 +21,7 @@ public class UserController {
    * 로그인 API
    * 
    * @param reqDto 로그인 요청 데이터
-   * @return 로그인 성공 시 사용자 정보 반환 (seq, userNickname)
+   * @return JWT 토큰 및 사용자 정보(seq, userNickname) 반환
    */
   @PostMapping("/auth/login")
   public ResponseEntity<Map<String, Object>> loginUser(@RequestBody UserDto reqDto)
