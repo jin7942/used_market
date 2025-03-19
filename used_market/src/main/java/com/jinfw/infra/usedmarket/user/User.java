@@ -43,7 +43,7 @@ public class User extends BaseEntity {
   private String userNickname;
 
   // 유저 프로필 이미지 URL
-  // TODO: 이미지 처리기능 만들어야됨
+  // TODO: 이미지 처리기능 만들기
   @Column(name = "userProfileImg", nullable = false)
   private String userProfileImg;
 
