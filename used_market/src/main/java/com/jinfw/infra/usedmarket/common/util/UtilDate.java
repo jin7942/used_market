@@ -1,8 +1,8 @@
-package com.jinfw.infra.usedmarket.common.utill;
+package com.jinfw.infra.usedmarket.common.util;
 
 import java.time.LocalDateTime;
 
-public class Utill {
+public class UtilDate {
 
   /**
    * 현재 시간 반환 함수

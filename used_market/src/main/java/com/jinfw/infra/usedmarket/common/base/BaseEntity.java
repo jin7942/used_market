@@ -1,7 +1,7 @@
 package com.jinfw.infra.usedmarket.common.base;
 
 import java.time.LocalDateTime;
-import com.jinfw.infra.usedmarket.common.utill.Utill;
+import com.jinfw.infra.usedmarket.common.util.UtilDate;
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.PrePersist;
@@ -34,8 +34,8 @@ public class BaseEntity {
   @PrePersist
   protected void onCreate() {
     if (this.createDT == null && this.updateDT == null) {
-      this.createDT = Utill.getCurrentTime();
-      this.updateDT = Utill.getCurrentTime();
+      this.createDT = UtilDate.getCurrentTime();
+      this.updateDT = UtilDate.getCurrentTime();
     }
   }
 
@@ -44,6 +44,6 @@ public class BaseEntity {
    */
   @PreUpdate
   protected void onUpdate() {
-    this.updateDT = Utill.getCurrentTime();
+    this.updateDT = UtilDate.getCurrentTime();
   }
 }
