@@ -39,8 +39,8 @@ public class User extends BaseEntity {
   private String userPassword;
 
   // 유저 별명
-  @Column(name = "userNickName", nullable = false)
-  private String userNickName;
+  @Column(name = "userNickname", nullable = false)
+  private String userNickname;
 
   // 유저 프로필 이미지 URL
   // TODO: 이미지 처리기능 만들어야됨

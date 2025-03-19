@@ -1,6 +1,5 @@
 package com.jinfw.infra.usedmarket.common.constants;
 
-// TODO: 리파지토리 계층 구현
 /**
  * 공통 코드 부분 ENUM 정의
  */

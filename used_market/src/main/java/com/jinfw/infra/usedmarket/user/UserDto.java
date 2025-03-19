@@ -17,7 +17,7 @@ public class UserDto {
   private String userPassword;
 
   // 유저 별명
-  private String userNickName;
+  private String userNickname;
 
   // 유저 프로필 이미지 URL
   private String userProfileImg;
