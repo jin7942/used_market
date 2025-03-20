@@ -28,13 +28,13 @@ public class Imgupload extends BaseEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "seq")
-  private int seq; // PK
+  private String seq; // PK
 
   @Column(name = "imgPseq")
-  private int imgPseq; // 등록한 유저
+  private String imgPseq; // 등록한 유저
 
   @Column(name = "imgSort")
-  private int imgSort; // 정렬 순서
+  private String imgSort; // 정렬 순서
 
   // 이미지 파일명
   @Column(name = "imgUploadName", nullable = false, length = 255)

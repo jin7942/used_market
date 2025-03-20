@@ -28,7 +28,7 @@ public class User extends BaseEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "seq")
-  private int seq; // PK
+  private String seq; // PK
 
   // 유저 이메일
   @Column(name = "userEmail", nullable = false, unique = true)
@@ -43,7 +43,6 @@ public class User extends BaseEntity {
   private String userNickname;
 
   // 유저 프로필 이미지 URL
-  // TODO: 이미지 처리기능 만들기
   @Column(name = "userProfileImg", nullable = false)
   private String userProfileImg;
 

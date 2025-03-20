@@ -38,7 +38,7 @@ public class UserServiceImpl {
     }
 
     // 3. JWT 토큰 생성
-    String token = utilJwt.generateToken(user.getUserEmail());
+    String token = utilJwt.generateToken(user.getSeq());
 
     // 4. 로그인 성공 시 필요한 데이터만 반환
     Map<String, Object> res = new HashMap<>();

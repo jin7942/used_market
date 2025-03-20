@@ -1,6 +1,7 @@
 package com.jinfw.infra.usedmarket.item;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.springframework.stereotype.Service;
 import com.jinfw.infra.usedmarket.common.util.UtilDtoConverter;
@@ -35,6 +36,14 @@ public class ItemServiceImpl {
     res.put("seq", item.getSeq());
 
     return res;
+  }
+
+  public List<ItemVo> getItemList(ItemVo vo) throws Exception {
+
+    List<Item> itemList = itemRepository.findAll();
+
+    return null;
+
   }
 
 }

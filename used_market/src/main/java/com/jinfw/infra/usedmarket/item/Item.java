@@ -31,7 +31,7 @@ public class Item extends BaseEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "seq")
-  private int seq; // PK
+  private String seq; // PK
 
   @ManyToOne
   @JoinColumn(name = "user_seq", nullable = false) // FK
