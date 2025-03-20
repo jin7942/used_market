@@ -76,7 +76,7 @@ public class UserServiceImpl {
       // 2. 비밀번호 암호화
       String encryptedPassword = passwordEncoder.encode(reqDto.getUserPassword());
 
-      // 3. DTO → 엔티티 변환
+      // 3. Dto to Entity
       User user = dtoConverter.toEntity(reqDto, User.class);
       user.setUserPassword(encryptedPassword);
       user.setUserRoleCode(UserRoleCode.USER);
