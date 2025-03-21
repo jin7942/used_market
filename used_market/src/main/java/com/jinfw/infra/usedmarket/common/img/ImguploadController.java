@@ -14,6 +14,13 @@ public class ImguploadController {
 
   private final ImguploadServiceImpl imguploadService;
 
+  /**
+   * 이미지 업로드 API
+   * 
+   * @param dto 이미지 등록 요청 리스트
+   * @return true / false
+   * @throws Exception
+   */
   @PostMapping("/upload")
   public ResponseEntity<Boolean> instImgupload(@RequestBody ImguploadDto dto) throws Exception {
 

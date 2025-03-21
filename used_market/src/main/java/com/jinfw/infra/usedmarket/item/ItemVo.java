@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 public class ItemVo {
 
-  private String seq; // PK
+  private int seq; // PK
   private User userSeq; // 판매자
 
   // 상품 제목
@@ -24,5 +24,16 @@ public class ItemVo {
 
   // 업데이트 날짜
   private LocalDateTime updateDT;
+
+  // 대표 이미지 URL
+  private String itemImgUrl;
+
+  // item을 파라미터로 받는 생성자
+  public ItemVo(Item item) {
+    this.userSeq = item.getUserSeq();
+    this.itemTitle = item.getItemTitle();
+    this.itemPrice = item.getItemPrice();
+    this.updateDT = item.getUpdateDT();
+  }
 
 }

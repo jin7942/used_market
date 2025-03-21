@@ -28,7 +28,7 @@ public class User extends BaseEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "seq")
-  private String seq; // PK
+  private int seq; // PK
 
   // 유저 이메일
   @Column(name = "userEmail", nullable = false, unique = true)

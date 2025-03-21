@@ -23,7 +23,7 @@ public class UserServiceImpl {
   /**
    * 로그인
    * 
-   * @param reqDto 로그인 요청 데이터
+   * @param dto 로그인 요청 데이터
    * @return 로그인 성공 시 사용자 정보 반환 (seq, userNickName)
    */
   public Map<String, Object> loginUser(UserDto dto) throws Exception {
@@ -38,7 +38,7 @@ public class UserServiceImpl {
     }
 
     // 3. JWT 토큰 생성
-    String token = utilJwt.generateToken(user.getSeq());
+    String token = utilJwt.generateToken(user.getUserEmail());
 
     // 4. 로그인 성공 시 필요한 데이터만 반환
     Map<String, Object> res = new HashMap<>();
@@ -52,17 +52,27 @@ public class UserServiceImpl {
   /**
    * 이메일 중복 체크
    * 
-   * @param reqDto
-   * @return 중복 이메일 true, 없으면 false
+   * @param dto
+   * @return 있으면 true, 없으면 false
    */
   public boolean checkUserEmail(UserDto dto) throws Exception {
     return userRepository.existsByUserEmail(dto.getUserEmail());
   }
 
   /**
+   * 닉네임 중복 체크
+   * 
+   * @param dto
+   * @return 있으면 true, 없으면 false
+   */
+  public boolean checkUserNickname(UserDto dto) throws Exception {
+    return userRepository.existsByUserNickname(dto.getUserNickname());
+  }
+
+  /**
    * 회원가입
    * 
-   * @param reqDto
+   * @param dto
    * @return true or false
    */
   public boolean instUser(UserDto dto) throws Exception {

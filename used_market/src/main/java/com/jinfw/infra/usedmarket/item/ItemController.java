@@ -1,12 +1,13 @@
 package com.jinfw.infra.usedmarket.item;
 
-import java.util.List;
 import java.util.Map;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 
@@ -20,7 +21,7 @@ public class ItemController {
   /**
    * 상품 등록 API
    * 
-   * @param reqDto 상품 등록 요청 데이터
+   * @param dto 상품 등록 요청 데이터
    * @return 등록된 상품 seq
    * @throws Exception
    */
@@ -32,13 +33,20 @@ public class ItemController {
     return ResponseEntity.ok(res);
   }
 
+  /**
+   * 상품 목록 조회 API
+   * 
+   * @param page 현재 페이지 번호 (1부터 시작)
+   * @param size 페이지당 항목 수
+   * @return 지정된 size만큼 상품리스트 리턴
+   */
   @GetMapping("/list")
-  public ResponseEntity<List<ItemVo>> getItemList(@RequestBody ItemVo vo) throws Exception {
+  public ResponseEntity<Page<ItemVo>> getItemList(@RequestParam(defaultValue = "1") int page,
+      @RequestParam(defaultValue = "12") int size) {
 
-    // TODO: 페이징 기능 구현
-    List<ItemVo> res = itemService.getItemList(vo);
+    Page<ItemVo> items = itemService.getItemList(page, size);
 
-    return ResponseEntity.ok(res);
+    return ResponseEntity.ok(items);
   }
 
 }

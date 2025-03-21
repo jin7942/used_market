@@ -20,7 +20,7 @@ public class UserController {
   /**
    * 로그인 API
    * 
-   * @param reqDto 로그인 요청 데이터
+   * @param dto 로그인 요청 데이터
    * @return JWT 토큰 및 사용자 정보(seq, userNickname) 반환
    */
   @PostMapping("/auth/login")
@@ -34,7 +34,7 @@ public class UserController {
   /**
    * 회원가입 API
    * 
-   * @param reqDto 회원가입 요청 데이터
+   * @param dto 회원가입 요청 데이터
    * @return true or false
    */
   @PostMapping("/auth/register")
@@ -48,13 +48,27 @@ public class UserController {
   /**
    * 이메일 중복 체크 API
    * 
-   * @param reqDto 체크할 이메일 주소 (쿼리 파라미터)
+   * @param dto 체크할 이메일 주소 (쿼리 파라미터)
    * @return 있으면 true, 없으면 false
    */
   @GetMapping("/auth/checkUserEmail")
   public ResponseEntity<Boolean> checkUserEmail(@RequestParam UserDto dto) throws Exception {
 
     boolean res = userService.checkUserEmail(dto);
+
+    return ResponseEntity.ok(res);
+  }
+
+  /**
+   * 유저 닉네임 중복 체크 API
+   * 
+   * @param dto 체크할 유저 닉네임 (쿼리 파라미터)
+   * @return 있으면 true, 없으면 false
+   */
+  @GetMapping("/auth/checkUserNickname")
+  public ResponseEntity<Boolean> checkUserNickname(@RequestParam UserDto dto) throws Exception {
+
+    boolean res = userService.checkUserNickname(dto);
 
     return ResponseEntity.ok(res);
   }

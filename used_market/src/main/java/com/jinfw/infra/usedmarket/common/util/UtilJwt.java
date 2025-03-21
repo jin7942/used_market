@@ -19,11 +19,11 @@ public class UtilJwt {
   /**
    * JWT 토큰 생성
    * 
-   * @param seq 유저 시퀀스
+   * @param userEmail 유저 이메일
    * @return JWT 토큰
    */
-  public String generateToken(String seq) {
-    return Jwts.builder().subject(seq).issuedAt(new Date())
+  public String generateToken(String userEmail) {
+    return Jwts.builder().subject(userEmail).issuedAt(new Date())
         .expiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME)).signWith(key).compact();
   }
 
@@ -31,7 +31,7 @@ public class UtilJwt {
    * JWT 토큰에서 사용자 시퀀스 추출
    * 
    * @param token JWT 토큰
-   * @return 사용자 시퀀스
+   * @return userEmail 유저 이메일
    */
   public String extractUserEmail(String token) {
     return Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload().getSubject();

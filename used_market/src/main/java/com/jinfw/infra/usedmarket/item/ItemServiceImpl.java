@@ -1,8 +1,11 @@
 package com.jinfw.infra.usedmarket.item;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import com.jinfw.infra.usedmarket.common.util.UtilDtoConverter;
 import lombok.RequiredArgsConstructor;
@@ -38,12 +41,17 @@ public class ItemServiceImpl {
     return res;
   }
 
-  public List<ItemVo> getItemList(ItemVo vo) throws Exception {
+  /**
+   * 상품 목록 리스트 조회 함수
+   * 
+   * @param page 현재 페이지 번호 (1부터 시작)
+   * @param size 페이지당 항목 수
+   * @return 지정된 size만큼 상품리스트 리턴
+   */
+  public Page<ItemVo> getItemList(int page, int size) {
+    Pageable pageable = PageRequest.of(page, size, Sort.by("createDT").descending());
 
-    List<Item> itemList = itemRepository.findAll();
-
-    return null;
-
+    return itemRepository.findAll(pageable).map(item -> new ItemVo(item));
   }
 
 }
