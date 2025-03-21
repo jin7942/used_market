@@ -1,4 +1,4 @@
-package com.jinfw.infra.usedmarket.user;
+package com.jinfw.infra.usedmarket.user.dto;
 
 import lombok.Getter;
 import lombok.Setter;

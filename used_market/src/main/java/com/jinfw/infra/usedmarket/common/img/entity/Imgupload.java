@@ -1,4 +1,4 @@
-package com.jinfw.infra.usedmarket.common.img;
+package com.jinfw.infra.usedmarket.common.img.entity;
 
 import com.jinfw.infra.usedmarket.common.base.BaseEntity;
 import com.jinfw.infra.usedmarket.common.constants.CommonCode.ImageUploadStatusCode;

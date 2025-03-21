@@ -1,4 +1,4 @@
-package com.jinfw.infra.usedmarket.item;
+package com.jinfw.infra.usedmarket.item.dto;
 
 import java.math.BigDecimal;
 import lombok.Getter;

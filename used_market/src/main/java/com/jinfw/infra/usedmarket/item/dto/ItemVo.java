@@ -1,13 +1,17 @@
-package com.jinfw.infra.usedmarket.item;
+package com.jinfw.infra.usedmarket.item.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import com.jinfw.infra.usedmarket.user.User;
+import com.jinfw.infra.usedmarket.user.entity.User;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ItemVo {
 
   private int seq; // PK
@@ -26,14 +30,11 @@ public class ItemVo {
   private LocalDateTime updateDT;
 
   // 대표 이미지 URL
-  private String itemImgUrl;
+  // private String itemImgUrl;
 
-  // item을 파라미터로 받는 생성자
-  public ItemVo(Item item) {
-    this.userSeq = item.getUserSeq();
-    this.itemTitle = item.getItemTitle();
-    this.itemPrice = item.getItemPrice();
-    this.updateDT = item.getUpdateDT();
-  }
+  // 이미지 정보
+  private String imgUploadPath;
+  private String imgUploadUuidname;
+  private String imgUploadExt;
 
 }

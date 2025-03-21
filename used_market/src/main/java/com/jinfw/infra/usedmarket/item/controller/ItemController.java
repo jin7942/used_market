@@ -1,7 +1,7 @@
-package com.jinfw.infra.usedmarket.item;
+package com.jinfw.infra.usedmarket.item.controller;
 
+import java.util.List;
 import java.util.Map;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import com.jinfw.infra.usedmarket.item.dto.ItemDto;
+import com.jinfw.infra.usedmarket.item.dto.ItemVo;
+import com.jinfw.infra.usedmarket.item.service.ItemServiceImpl;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -41,12 +44,9 @@ public class ItemController {
    * @return 지정된 size만큼 상품리스트 리턴
    */
   @GetMapping("/list")
-  public ResponseEntity<Page<ItemVo>> getItemList(@RequestParam(defaultValue = "1") int page,
+  public ResponseEntity<List<ItemVo>> getItemList(@RequestParam(defaultValue = "1") int page,
       @RequestParam(defaultValue = "12") int size) {
-
-    Page<ItemVo> items = itemService.getItemList(page, size);
-
-    return ResponseEntity.ok(items);
+    return ResponseEntity.ok(itemService.getItemList(page, size));
   }
 
 }

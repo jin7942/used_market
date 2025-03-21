@@ -1,4 +1,4 @@
-package com.jinfw.infra.usedmarket.user;
+package com.jinfw.infra.usedmarket.user.entity;
 
 import com.jinfw.infra.usedmarket.common.base.BaseEntity;
 import com.jinfw.infra.usedmarket.common.constants.CommonCode.UserRoleCode;

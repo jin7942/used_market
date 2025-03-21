@@ -1,4 +1,4 @@
-package com.jinfw.infra.usedmarket.user;
+package com.jinfw.infra.usedmarket.user.service;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,6 +9,9 @@ import com.jinfw.infra.usedmarket.common.constants.CommonCode.UserStatusCode;
 import com.jinfw.infra.usedmarket.common.exception.InvalidLoginException;
 import com.jinfw.infra.usedmarket.common.util.UtilDtoConverter;
 import com.jinfw.infra.usedmarket.common.util.UtilJwt;
+import com.jinfw.infra.usedmarket.user.dto.UserDto;
+import com.jinfw.infra.usedmarket.user.entity.User;
+import com.jinfw.infra.usedmarket.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service

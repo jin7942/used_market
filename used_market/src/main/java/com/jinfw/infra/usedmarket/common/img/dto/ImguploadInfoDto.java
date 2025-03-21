@@ -1,4 +1,4 @@
-package com.jinfw.infra.usedmarket.common.img;
+package com.jinfw.infra.usedmarket.common.img.dto;
 
 import com.jinfw.infra.usedmarket.common.constants.CommonCode.ImageUploadTypeCode;
 import lombok.Getter;

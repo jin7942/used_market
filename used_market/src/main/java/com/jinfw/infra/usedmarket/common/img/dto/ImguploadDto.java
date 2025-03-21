@@ -1,4 +1,4 @@
-package com.jinfw.infra.usedmarket.common.img;
+package com.jinfw.infra.usedmarket.common.img.dto;
 
 import java.util.List;
 import lombok.Getter;
