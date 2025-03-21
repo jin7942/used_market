@@ -25,10 +25,9 @@ public class ItemController {
    * @throws Exception
    */
   @PostMapping("/register")
-  public ResponseEntity<Map<String, Object>> registerItem(@RequestBody ItemDto reqDto)
-      throws Exception {
+  public ResponseEntity<Map<String, Object>> instItem(@RequestBody ItemDto dto) throws Exception {
 
-    Map<String, Object> res = itemService.registerItem(reqDto);
+    Map<String, Object> res = itemService.instItem(dto);
 
     return ResponseEntity.ok(res);
   }

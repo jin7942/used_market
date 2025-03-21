@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * ItemDto
+ * Item request Dto
  */
 @Getter
 @Setter

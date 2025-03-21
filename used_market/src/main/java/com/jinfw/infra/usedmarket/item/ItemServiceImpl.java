@@ -20,13 +20,13 @@ public class ItemServiceImpl {
    * @param reqDto
    * @return 등록된 상품 seq 반환
    */
-  public Map<String, Object> registerItem(ItemDto reqDto) throws Exception {
+  public Map<String, Object> instItem(ItemDto dto) throws Exception {
 
     // 1. Dto to Entity
-    Item item = dtoConverter.toEntity(reqDto, Item.class);
-    item.setItemTitle(reqDto.getItemTitle());
-    item.setItemDescription(reqDto.getItemDescription());
-    item.setItemPrice(reqDto.getItemPrice());
+    Item item = dtoConverter.toEntity(dto, Item.class);
+    item.setItemTitle(dto.getItemTitle());
+    item.setItemDescription(dto.getItemDescription());
+    item.setItemPrice(dto.getItemPrice());
 
     // 2. DB에 저장
     itemRepository.save(item);

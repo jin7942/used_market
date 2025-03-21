@@ -52,9 +52,9 @@ public class Imgupload extends BaseEntity {
   @Column(name = "imgUploadExt", nullable = false, length = 255)
   private String imgUploadExt;
 
-  // 이미지 파일 사이즈(KB)
+  // 이미지 파일 사이즈(byte)
   @Column(name = "imgUploadSize", nullable = false)
-  private int imgUploadSize;
+  private String imgUploadSize;
 
   // 이미지 타입(공통 코드)
   @Enumerated(EnumType.STRING)
@@ -62,7 +62,8 @@ public class Imgupload extends BaseEntity {
   private ImageUploadTypeCode imgUploadTypeCode;
 
   // 이미지 상태(공통코드)
+  @Enumerated(EnumType.STRING)
   @Column(name = "imgUploadStateCode", nullable = false)
-  private ImageUploadStatusCode imgUploadStateCode;
+  private ImageUploadStatusCode imgUploadStateCode = ImageUploadStatusCode.ENABLED;
 
 }

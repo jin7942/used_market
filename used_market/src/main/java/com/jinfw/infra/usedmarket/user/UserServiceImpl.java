@@ -26,14 +26,14 @@ public class UserServiceImpl {
    * @param reqDto 로그인 요청 데이터
    * @return 로그인 성공 시 사용자 정보 반환 (seq, userNickName)
    */
-  public Map<String, Object> loginUser(UserDto reqDto) throws Exception {
+  public Map<String, Object> loginUser(UserDto dto) throws Exception {
 
     // 1. 이메일로 사용자 조회
-    User user = userRepository.findByUserEmail(reqDto.getUserEmail())
+    User user = userRepository.findByUserEmail(dto.getUserEmail())
         .orElseThrow(() -> new InvalidLoginException("이메일 또는 비밀번호가 올바르지 않습니다."));
 
     // 2. 비밀번호 검증
-    if (!passwordEncoder.matches(reqDto.getUserPassword(), user.getUserPassword())) {
+    if (!passwordEncoder.matches(dto.getUserPassword(), user.getUserPassword())) {
       throw new InvalidLoginException("이메일 또는 비밀번호가 올바르지 않습니다.");
     }
 
@@ -55,8 +55,8 @@ public class UserServiceImpl {
    * @param reqDto
    * @return 중복 이메일 true, 없으면 false
    */
-  public boolean checkUserEmail(UserDto reqDto) throws Exception {
-    return userRepository.existsByUserEmail(reqDto.getUserEmail());
+  public boolean checkUserEmail(UserDto dto) throws Exception {
+    return userRepository.existsByUserEmail(dto.getUserEmail());
   }
 
   /**
@@ -65,19 +65,19 @@ public class UserServiceImpl {
    * @param reqDto
    * @return true or false
    */
-  public boolean registerUser(UserDto reqDto) throws Exception {
+  public boolean instUser(UserDto dto) throws Exception {
 
     // 1. 이메일 중복 체크
-    if (checkUserEmail(reqDto)) {
+    if (checkUserEmail(dto)) {
       throw new InvalidLoginException("이미 사용 중인 이메일입니다.");
     }
 
     try {
       // 2. 비밀번호 암호화
-      String encryptedPassword = passwordEncoder.encode(reqDto.getUserPassword());
+      String encryptedPassword = passwordEncoder.encode(dto.getUserPassword());
 
       // 3. Dto to Entity
-      User user = dtoConverter.toEntity(reqDto, User.class);
+      User user = dtoConverter.toEntity(dto, User.class);
       user.setUserPassword(encryptedPassword);
       user.setUserRoleCode(UserRoleCode.USER);
       user.setUserStateCode(UserStatusCode.ACTIVE);

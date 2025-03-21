@@ -24,10 +24,9 @@ public class UserController {
    * @return JWT 토큰 및 사용자 정보(seq, userNickname) 반환
    */
   @PostMapping("/auth/login")
-  public ResponseEntity<Map<String, Object>> loginUser(@RequestBody UserDto reqDto)
-      throws Exception {
+  public ResponseEntity<Map<String, Object>> loginUser(@RequestBody UserDto dto) throws Exception {
 
-    Map<String, Object> res = userService.loginUser(reqDto);
+    Map<String, Object> res = userService.loginUser(dto);
 
     return ResponseEntity.ok(res);
   }
@@ -39,9 +38,9 @@ public class UserController {
    * @return true or false
    */
   @PostMapping("/auth/register")
-  public ResponseEntity<Boolean> registerUser(@RequestBody UserDto reqDto) throws Exception {
+  public ResponseEntity<Boolean> instUser(@RequestBody UserDto dto) throws Exception {
 
-    boolean res = userService.registerUser(reqDto);
+    boolean res = userService.instUser(dto);
 
     return ResponseEntity.ok(res);
   }
@@ -53,9 +52,9 @@ public class UserController {
    * @return 있으면 true, 없으면 false
    */
   @GetMapping("/auth/checkUserEmail")
-  public ResponseEntity<Boolean> checkUserEmail(@RequestParam UserDto reqDto) throws Exception {
+  public ResponseEntity<Boolean> checkUserEmail(@RequestParam UserDto dto) throws Exception {
 
-    boolean res = userService.checkUserEmail(reqDto);
+    boolean res = userService.checkUserEmail(dto);
 
     return ResponseEntity.ok(res);
   }

@@ -1,10 +1,16 @@
 package com.jinfw.infra.usedmarket.common.img;
 
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Imgupload request Dto
+ */
 @Getter
 @Setter
 public class ImguploadDto {
-  // TODO: 이미지 등록 api 제작
+
+  List<ImguploadInfoDto> imgList;
+
 }
