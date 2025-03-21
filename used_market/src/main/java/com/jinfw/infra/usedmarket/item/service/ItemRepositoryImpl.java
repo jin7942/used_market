@@ -19,6 +19,8 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
     int offset = page * size;
 
     // TODO: 쿼리랑 dto 맞게 수정
+    // TODO: uploadserver github 업데이트
+    // TODO: 프론트 엔드 연동 시작
     String sql = """
             SELECT
                 a.seq,
