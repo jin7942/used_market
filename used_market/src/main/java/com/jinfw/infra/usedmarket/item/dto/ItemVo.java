@@ -2,7 +2,6 @@ package com.jinfw.infra.usedmarket.item.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import com.jinfw.infra.usedmarket.user.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,7 +14,7 @@ import lombok.Setter;
 public class ItemVo {
 
   private int seq; // PK
-  private User userSeq; // 판매자
+  private String userNickname; // 판매자
 
   // 상품 제목
   private String itemTitle;

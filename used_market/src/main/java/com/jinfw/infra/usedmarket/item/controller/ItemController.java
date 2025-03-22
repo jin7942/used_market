@@ -40,13 +40,26 @@ public class ItemController {
    * 상품 목록 조회 API
    * 
    * @param page 현재 페이지 번호 (1부터 시작)
-   * @param size 페이지당 항목 수
+   * @param int size 페이지당 항목 수
    * @return 지정된 size만큼 상품리스트 리턴
+   * @throws Exception
    */
   @GetMapping("/list")
   public ResponseEntity<List<ItemVo>> getItemList(@RequestParam(defaultValue = "1") int page,
-      @RequestParam(defaultValue = "12") int size) {
+      @RequestParam(defaultValue = "12") int size) throws Exception {
     return ResponseEntity.ok(itemService.getItemList(page, size));
+  }
+
+  /**
+   * 상품 단일 조회 API
+   * 
+   * @param dto 조회할 상품 seq
+   * @return vo 조회된 상품 객체
+   * @throws Exception
+   */
+  @GetMapping("/detail")
+  public ResponseEntity<ItemVo> getItemOne(@RequestParam int seq) throws Exception {
+    return ResponseEntity.ok(itemService.getItemOne(seq));
   }
 
 }
