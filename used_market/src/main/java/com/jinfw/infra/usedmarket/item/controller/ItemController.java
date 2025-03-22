@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jinfw.infra.usedmarket.item.dto.ItemDto;
 import com.jinfw.infra.usedmarket.item.dto.ItemVo;
 import com.jinfw.infra.usedmarket.item.service.ItemServiceImpl;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
+@Tag(name = "Item API", description = "상품 관련 API")
 @RestController
 @RequestMapping("/api/items")
 @RequiredArgsConstructor

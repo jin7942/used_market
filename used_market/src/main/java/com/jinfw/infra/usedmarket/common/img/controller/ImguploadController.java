@@ -7,8 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.jinfw.infra.usedmarket.common.img.dto.ImguploadDto;
 import com.jinfw.infra.usedmarket.common.img.service.ImguploadServiceImpl;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
+@Tag(name = "Imgupload API", description = "이미지 처리 관련 API")
 @RestController
 @RequestMapping("/api/imges")
 @RequiredArgsConstructor

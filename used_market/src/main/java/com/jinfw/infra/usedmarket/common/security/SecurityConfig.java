@@ -25,8 +25,8 @@ public class SecurityConfig {
     http.csrf(csrf -> csrf.disable()) // CSRF 비활성화
         .sessionManagement(
             session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // 세션 비활성화
-        // 로그인, 회원가입, 메인페이지는 인증없이 접속 가능
-        .authorizeHttpRequests(auth -> auth.requestMatchers("/api/auth/**", "/api/item").permitAll()
+        // 모든 페이지 인증없이 접근 가능(개발용)
+        .authorizeHttpRequests(auth -> auth.requestMatchers("/**").permitAll()
             .requestMatchers("/api/admin/**").hasRole("ADMIN") // 관리자 전용
             .anyRequest().authenticated() // 나머지 요청은 인증 필요
         ).httpBasic(httpBasic -> httpBasic.disable()) // 기본 로그인 폼 비활성화
