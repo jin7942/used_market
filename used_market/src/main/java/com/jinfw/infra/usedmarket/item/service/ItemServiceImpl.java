@@ -62,9 +62,10 @@ public class ItemServiceImpl {
    * @throws Exception
    */
   public ItemVo getItemOne(int seq) throws Exception {
+    // 1. PK를 기준으로 검색
     Item item = itemRepository.findById(seq)
         .orElseThrow(() -> new EntityNotFoundException("상품이 존재하지 않습니다."));
-
+    // 2. Dto 로 변환 후 리턴
     return dtoConverter.toDto(item, ItemVo.class);
   }
 
