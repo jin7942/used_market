@@ -45,9 +45,9 @@ public class UserServiceImpl {
 
     // 4. 로그인 성공 시 필요한 데이터만 반환
     Map<String, Object> res = new HashMap<>();
-    res.put("token", token);
     res.put("seq", user.getSeq());
     res.put("userNickname", user.getUserNickname());
+    res.put("token", token);
 
     return res;
   }
