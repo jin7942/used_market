@@ -23,7 +23,6 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
   public List<ItemVo> getItemList(int page, int size) {
     int offset = page * size;
 
-    // TODO: uploadserver github 업데이트
     // TODO: 프론트 엔드 연동 시작
     String sql = """
             SELECT
