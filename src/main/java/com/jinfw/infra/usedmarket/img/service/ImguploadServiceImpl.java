@@ -1,11 +1,11 @@
-package com.jinfw.infra.usedmarket.common.img.service;
+package com.jinfw.infra.usedmarket.img.service;
 
 import java.util.List;
 import org.springframework.stereotype.Service;
-import com.jinfw.infra.usedmarket.common.img.dto.ImguploadDto;
-import com.jinfw.infra.usedmarket.common.img.entity.Imgupload;
-import com.jinfw.infra.usedmarket.common.img.repository.ImguploadRepository;
 import com.jinfw.infra.usedmarket.common.util.UtilDtoConverter;
+import com.jinfw.infra.usedmarket.img.dto.ImguploadDto;
+import com.jinfw.infra.usedmarket.img.entity.Imgupload;
+import com.jinfw.infra.usedmarket.img.repository.ImguploadRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service

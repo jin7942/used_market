@@ -1,12 +1,11 @@
 package com.jinfw.infra.usedmarket.user.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.jinfw.infra.usedmarket.user.dto.UserDto;
 import com.jinfw.infra.usedmarket.user.service.UserServiceImpl;
@@ -30,50 +29,50 @@ public class UserController {
   @PostMapping("/auth/login")
   public ResponseEntity<Map<String, Object>> loginUser(@RequestBody UserDto dto) throws Exception {
 
-    Map<String, Object> res = userService.loginUser(dto);
-
-    return ResponseEntity.ok(res);
+    return ResponseEntity.ok(userService.loginUser(dto));
   }
 
   /**
    * 회원가입 API
    * 
    * @param dto 회원가입 요청 데이터
-   * @return true or false
+   * @return { "success": true } 또는 false
    */
   @PostMapping("/auth/register")
-  public ResponseEntity<Boolean> instUser(@RequestBody UserDto dto) throws Exception {
-
-    boolean res = userService.instUser(dto);
-
+  public ResponseEntity<Map<String, Boolean>> instUser(@RequestBody UserDto dto) throws Exception {
+    boolean result = userService.instUser(dto);
+    Map<String, Boolean> res = new HashMap<>();
+    res.put("success", result);
     return ResponseEntity.ok(res);
   }
 
   /**
    * 이메일 중복 체크 API
    * 
-   * @param dto 체크할 이메일 주소 (쿼리 파라미터)
-   * @return 있으면 true, 없으면 false
+   * @param dto 이메일 포함된 JSON 바디
+   * @return { "available": true } or false
    */
-  @GetMapping("/auth/checkUserEmail")
-  public ResponseEntity<Boolean> checkUserEmail(@RequestParam UserDto dto) throws Exception {
-
-    boolean res = userService.checkUserEmail(dto);
-
+  @PostMapping("/auth/check-email")
+  public ResponseEntity<Map<String, Boolean>> checkUserEmail(@RequestBody UserDto dto)
+      throws Exception {
+    boolean exists = userService.checkUserEmail(dto);
+    Map<String, Boolean> res = new HashMap<>();
+    res.put("available", !exists);
     return ResponseEntity.ok(res);
   }
 
   /**
-   * 유저 닉네임 중복 체크 API
+   * 닉네임 중복 체크 API
    * 
-   * @param dto 체크할 유저 닉네임 (쿼리 파라미터)
-   * @return 있으면 true, 없으면 false
+   * @param dto 닉네임 포함된 JSON 바디
+   * @return { "available": true } or false
    */
-  @GetMapping("/auth/checkUserNickname")
-  public ResponseEntity<Boolean> checkUserNickname(@RequestParam UserDto dto) throws Exception {
-
-    boolean res = userService.checkUserNickname(dto);
-
+  @PostMapping("/auth/check-nickname")
+  public ResponseEntity<Map<String, Boolean>> checkUserNickname(@RequestBody UserDto dto)
+      throws Exception {
+    boolean exists = userService.checkUserNickname(dto);
+    Map<String, Boolean> res = new HashMap<>();
+    res.put("available", !exists);
     return ResponseEntity.ok(res);
   }
 }

@@ -1,12 +1,12 @@
-package com.jinfw.infra.usedmarket.common.img.controller;
+package com.jinfw.infra.usedmarket.img.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.jinfw.infra.usedmarket.common.img.dto.ImguploadDto;
-import com.jinfw.infra.usedmarket.common.img.service.ImguploadServiceImpl;
+import com.jinfw.infra.usedmarket.img.dto.ImguploadDto;
+import com.jinfw.infra.usedmarket.img.service.ImguploadServiceImpl;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
