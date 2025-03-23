@@ -1,14 +1,14 @@
 package com.jinfw.infra.usedmarket.item.service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import org.springframework.stereotype.Service;
 import com.jinfw.infra.usedmarket.common.util.UtilDtoConverter;
 import com.jinfw.infra.usedmarket.item.dto.ItemDto;
 import com.jinfw.infra.usedmarket.item.dto.ItemVo;
 import com.jinfw.infra.usedmarket.item.entity.Item;
 import com.jinfw.infra.usedmarket.item.repository.ItemRepository;
+import com.jinfw.infra.usedmarket.user.entity.User;
+import com.jinfw.infra.usedmarket.user.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 public class ItemServiceImpl {
 
   private final ItemRepository itemRepository;
+  private final UserRepository userRepository;
   private final UtilDtoConverter dtoConverter; // DTO 변환 유틸
 
   /**
@@ -25,22 +26,15 @@ public class ItemServiceImpl {
    * @param reqDto
    * @return 등록된 상품 seq 반환
    */
-  public Map<String, Object> instItem(ItemDto dto) throws Exception {
+  public int instItem(ItemDto dto) throws Exception {
 
-    // 1. Dto to Entity
+    User user =
+        userRepository.findById(dto.getUserSeq()).orElseThrow(() -> new RuntimeException("사용자 없음"));
     Item item = dtoConverter.toEntity(dto, Item.class);
-    item.setItemTitle(dto.getItemTitle());
-    item.setItemDescription(dto.getItemDescription());
-    item.setItemPrice(dto.getItemPrice());
-
-    // 2. DB에 저장
+    item.setUserSeq(user);
     itemRepository.save(item);
 
-    // 3. 등록된 상품 seq 리턴
-    Map<String, Object> res = new HashMap<>();
-    res.put("seq", item.getSeq());
-
-    return res;
+    return item.getSeq();
   }
 
   /**
@@ -62,11 +56,15 @@ public class ItemServiceImpl {
    * @throws Exception
    */
   public ItemVo getItemOne(int seq) throws Exception {
-    // 1. PK를 기준으로 검색
     Item item = itemRepository.findById(seq)
         .orElseThrow(() -> new EntityNotFoundException("상품이 존재하지 않습니다."));
-    // 2. Dto 로 변환 후 리턴
-    return dtoConverter.toDto(item, ItemVo.class);
+
+    ItemVo vo = dtoConverter.toDto(item, ItemVo.class);
+
+    User user = item.getUserSeq();
+    vo.setUserNickname(user.getUserNickname());
+
+    return vo;
   }
 
 }

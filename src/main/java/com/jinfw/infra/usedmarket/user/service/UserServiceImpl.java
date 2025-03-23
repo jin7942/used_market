@@ -1,7 +1,5 @@
 package com.jinfw.infra.usedmarket.user.service;
 
-import java.util.HashMap;
-import java.util.Map;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.jinfw.infra.usedmarket.common.constants.CommonCode.UserRoleCode;
@@ -10,6 +8,7 @@ import com.jinfw.infra.usedmarket.common.exception.InvalidLoginException;
 import com.jinfw.infra.usedmarket.common.util.UtilDtoConverter;
 import com.jinfw.infra.usedmarket.common.util.UtilJwt;
 import com.jinfw.infra.usedmarket.user.dto.UserDto;
+import com.jinfw.infra.usedmarket.user.dto.UserVo;
 import com.jinfw.infra.usedmarket.user.entity.User;
 import com.jinfw.infra.usedmarket.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +28,7 @@ public class UserServiceImpl {
    * @param dto 로그인 요청 데이터
    * @return 로그인 성공 시 사용자 정보 반환 (seq, userNickName)
    */
-  public Map<String, Object> loginUser(UserDto dto) throws Exception {
+  public UserVo loginUser(UserDto dto) throws Exception {
 
     // 1. 이메일로 사용자 조회
     User user = userRepository.findByUserEmail(dto.getUserEmail())
@@ -44,12 +43,7 @@ public class UserServiceImpl {
     String token = utilJwt.generateToken(user.getUserEmail());
 
     // 4. 로그인 성공 시 필요한 데이터만 반환
-    Map<String, Object> res = new HashMap<>();
-    res.put("seq", user.getSeq());
-    res.put("userNickname", user.getUserNickname());
-    res.put("token", token);
-
-    return res;
+    return new UserVo(user.getSeq(), user.getUserNickname(), token);
   }
 
   /**

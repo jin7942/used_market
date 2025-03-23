@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 public class ItemDto {
 
-  private int seq; // PK
+  private int userSeq; // 등록한 유저
 
   // 상품 제목
   private String itemTitle;

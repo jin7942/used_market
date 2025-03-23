@@ -33,9 +33,7 @@ public class ItemController {
   @PostMapping("/register")
   public ResponseEntity<Map<String, Object>> instItem(@RequestBody ItemDto dto) throws Exception {
 
-    Map<String, Object> res = itemService.instItem(dto);
-
-    return ResponseEntity.ok(res);
+    return ResponseEntity.ok(Map.of("seq", itemService.instItem(dto)));
   }
 
   /**
