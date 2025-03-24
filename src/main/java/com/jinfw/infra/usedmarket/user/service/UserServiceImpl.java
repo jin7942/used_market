@@ -2,6 +2,7 @@ package com.jinfw.infra.usedmarket.user.service;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import com.jinfw.infra.usedmarket.common.constants.CommonCode.UserRoleCode;
 import com.jinfw.infra.usedmarket.common.constants.CommonCode.UserStatusCode;
 import com.jinfw.infra.usedmarket.common.exception.InvalidLoginException;
@@ -72,6 +73,7 @@ public class UserServiceImpl {
    * @param dto
    * @return true or false
    */
+  @Transactional
   public boolean instUser(UserDto dto) throws Exception {
 
     // 1. 이메일 중복 체크
@@ -89,8 +91,14 @@ public class UserServiceImpl {
       user.setUserRoleCode(UserRoleCode.USER);
       user.setUserStateCode(UserStatusCode.ACTIVE);
 
+      System.out.println(user.getUserEmail());
+      System.out.println(user.getUserNickname());
+
+
+
       // 4. DB에 저장
-      userRepository.save(user);
+      User res = userRepository.save(user);
+      System.out.println("svae : " + res);
 
       return true; // 회원가입 성공
     } catch (Exception e) {

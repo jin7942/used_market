@@ -43,7 +43,7 @@ public class User extends BaseEntity {
   private String userNickname;
 
   // 유저 프로필 이미지 URL
-  @Column(name = "userProfileImg", nullable = false)
+  @Column(name = "userProfileImg", nullable = true)
   private String userProfileImg;
 
   // 유저 권한(공통 코드)
