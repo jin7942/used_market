@@ -22,13 +22,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       FilterChain filterChain) throws ServletException, IOException {
     String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-    if (authHeader != null && authHeader.startsWith("Bearer ")) {
-      String token = authHeader.substring(7);
-      if (!utiljwt.validateToken(token)) {
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid Token");
-        return;
-      }
+    // 인증이 필요한 요청인데 Authorization 헤더가 아예 없거나 잘못된 경우 → 차단
+    if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+      filterChain.doFilter(request, response); // 비인증 요청은 그대로 진행 (permitAll 에 한함)
+      return;
     }
+
+    // 토큰 추출 및 검증
+    String token = authHeader.substring(7);
+    if (!utiljwt.validateToken(token)) {
+      response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid or Expired Token");
+      return;
+    }
+
 
     filterChain.doFilter(request, response);
   }
