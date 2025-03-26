@@ -74,35 +74,30 @@ public class UserServiceImpl {
    * @return true or false
    */
   @Transactional
-  public boolean instUser(UserDto dto) throws Exception {
+  public void instUser(UserDto dto) throws Exception {
 
     // 1. 이메일 중복 체크
     if (checkUserEmail(dto)) {
       throw new InvalidLoginException("이미 사용 중인 이메일입니다.");
     }
 
-    try {
-      // 2. 비밀번호 암호화
-      String encryptedPassword = passwordEncoder.encode(dto.getUserPassword());
+    // 2. 비밀번호 암호화
+    String encryptedPassword = passwordEncoder.encode(dto.getUserPassword());
 
-      // 3. Dto to Entity
-      User user = dtoConverter.toEntity(dto, User.class);
-      user.setUserPassword(encryptedPassword);
-      user.setUserRoleCode(UserRoleCode.USER);
-      user.setUserStateCode(UserStatusCode.ACTIVE);
+    // 3. Dto to Entity
+    User user = dtoConverter.toEntity(dto, User.class);
+    user.setUserPassword(encryptedPassword);
+    user.setUserRoleCode(UserRoleCode.USER);
+    user.setUserStateCode(UserStatusCode.ACTIVE);
 
-      System.out.println(user.getUserEmail());
-      System.out.println(user.getUserNickname());
-
+    System.out.println(user.getUserEmail());
+    System.out.println(user.getUserNickname());
 
 
-      // 4. DB에 저장
-      User res = userRepository.save(user);
-      System.out.println("svae : " + res);
 
-      return true; // 회원가입 성공
-    } catch (Exception e) {
-      return false; // 회원가입 실패
-    }
+    // 4. DB에 저장
+    User res = userRepository.save(user);
+    System.out.println("svae : " + res);
+
   }
 }

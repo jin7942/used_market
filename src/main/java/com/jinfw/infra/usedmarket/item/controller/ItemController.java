@@ -1,5 +1,6 @@
 package com.jinfw.infra.usedmarket.item.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import com.jinfw.infra.usedmarket.common.dto.ResponseVo;
 import com.jinfw.infra.usedmarket.item.dto.ItemDto;
 import com.jinfw.infra.usedmarket.item.dto.ItemVo;
 import com.jinfw.infra.usedmarket.item.service.ItemServiceImpl;
@@ -20,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/items")
 @RequiredArgsConstructor
 public class ItemController {
-
+  // TODO : 응답 형식 마저 수정
   private final ItemServiceImpl itemService;
 
   /**
@@ -31,9 +33,13 @@ public class ItemController {
    * @throws Exception
    */
   @PostMapping("/register")
-  public ResponseEntity<Map<String, Object>> instItem(@RequestBody ItemDto dto) throws Exception {
+  public ResponseEntity<ResponseVo<Object>> instItem(@RequestBody ItemDto dto) throws Exception {
 
-    return ResponseEntity.ok(Map.of("seq", itemService.instItem(dto)));
+    Map<String, Object> result = new HashMap<>();
+    result.put("seq", itemService.instItem(dto));
+    ResponseVo<Object> res = new ResponseVo<>(true, "상품 등록 성공", result);
+
+    return ResponseEntity.ok(res);
   }
 
   /**

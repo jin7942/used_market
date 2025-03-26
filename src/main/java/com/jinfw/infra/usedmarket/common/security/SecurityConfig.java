@@ -25,9 +25,10 @@ public class SecurityConfig {
         .csrf(csrf -> csrf.disable())
         .sessionManagement(
             session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        .authorizeHttpRequests(
-            auth -> auth.requestMatchers("/api/users/**", "/api/item/**").permitAll()
-                .requestMatchers("/api/admin/**").hasRole("ADMIN").anyRequest().authenticated())
+        .authorizeHttpRequests(auth -> auth
+            .requestMatchers("/api/users/**", "/api/item/**", "/swagger-ui/**", "/v3/api-docs/**")
+            .permitAll().requestMatchers("/api/admin/**").hasRole("ADMIN").anyRequest()
+            .authenticated())
         .httpBasic(httpBasic -> httpBasic.disable())
         .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 

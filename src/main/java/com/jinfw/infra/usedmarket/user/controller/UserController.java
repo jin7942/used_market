@@ -1,18 +1,20 @@
 package com.jinfw.infra.usedmarket.user.controller;
 
-import java.util.Map;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.jinfw.infra.usedmarket.common.dto.ResponseVo;
 import com.jinfw.infra.usedmarket.user.dto.UserDto;
 import com.jinfw.infra.usedmarket.user.dto.UserVo;
 import com.jinfw.infra.usedmarket.user.service.UserServiceImpl;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
-@Tag(name = "User API", description = "유저 관련 API")
+
+@Tag(name = "User API", description = "회원 관련 API")
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
@@ -20,49 +22,49 @@ public class UserController {
 
   private final UserServiceImpl userService;
 
-  /**
-   * 로그인 API
-   * 
-   * @param dto 로그인 요청 데이터
-   * @return JWT 토큰 및 사용자 정보(seq, userNickname) 반환
-   */
+  // 로그인 API
+  @Operation(summary = "로그인", description = "이메일과 비밀번호로 로그인합니다.")
   @PostMapping("/auth/login")
-  public ResponseEntity<UserVo> loginUser(@RequestBody UserDto dto) throws Exception {
-    return ResponseEntity.ok(userService.loginUser(dto));
+  public ResponseEntity<ResponseVo<UserVo>> loginUser(@RequestBody UserDto dto) throws Exception {
+
+    UserVo vo = userService.loginUser(dto);
+    ResponseVo<UserVo> res = new ResponseVo<>(true, "로그인 성공", vo);
+
+    return ResponseEntity.ok(res);
   }
 
-  /**
-   * 회원가입 API
-   * 
-   * @param dto 회원가입 요청 데이터
-   * @return { "success": true } 또는 false
-   */
+  // 회원가입 API
+  @Operation(summary = "회원가입", description = "이메일, 비밀번호, 닉네임으로 회원가입합니다.")
   @PostMapping("/auth/register")
-  public ResponseEntity<Map<String, Boolean>> instUser(@RequestBody UserDto dto) throws Exception {
-    return ResponseEntity.ok(Map.of("success", userService.instUser(dto)));
+  public ResponseEntity<ResponseVo<Boolean>> instUser(@RequestBody UserDto dto) throws Exception {
+
+    userService.instUser(dto);
+    ResponseVo<Boolean> res = new ResponseVo<>(true, "회원가입 성공", null);
+
+    return ResponseEntity.ok(res);
   }
 
-  /**
-   * 이메일 중복 체크 API
-   * 
-   * @param dto 이메일 포함된 JSON 바디
-   * @return { "available": true } or false
-   */
+  // 이메일 중복 체크 API
+  @Operation(summary = "이메일 중복 체크", description = "이메일이 이미 사용 중인지 확인합니다.")
   @PostMapping("/auth/check-email")
-  public ResponseEntity<Map<String, Boolean>> checkUserEmail(@RequestBody UserDto dto)
+  public ResponseEntity<ResponseVo<Boolean>> checkUserEmail(@RequestBody UserDto dto)
       throws Exception {
-    return ResponseEntity.ok(Map.of("available", !userService.checkUserEmail(dto)));
+
+    ResponseVo<Boolean> res =
+        new ResponseVo<>(true, "이메일 중복 체크 조회 결과", !userService.checkUserEmail(dto));
+
+    return ResponseEntity.ok(res);
   }
 
-  /**
-   * 닉네임 중복 체크 API
-   * 
-   * @param dto 닉네임 포함된 JSON 바디
-   * @return { "available": true } or false
-   */
+  // 닉네임 중복 체크 API
+  @Operation(summary = "닉네임 중복 체크", description = "닉네임이 이미 사용 중인지 확인합니다.")
   @PostMapping("/auth/check-nickname")
-  public ResponseEntity<Map<String, Boolean>> checkUserNickname(@RequestBody UserDto dto)
+  public ResponseEntity<ResponseVo<Boolean>> checkUserNickname(@RequestBody UserDto dto)
       throws Exception {
-    return ResponseEntity.ok(Map.of("available", !userService.checkUserNickname(dto)));
+
+    ResponseVo<Boolean> res =
+        new ResponseVo<>(true, "닉네임 중복 체크 조회 결과", !userService.checkUserNickname(dto));
+
+    return ResponseEntity.ok(res);
   }
 }
