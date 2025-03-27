@@ -14,6 +14,7 @@ import com.jinfw.infra.usedmarket.common.dto.ResponseVo;
 import com.jinfw.infra.usedmarket.item.dto.ItemDto;
 import com.jinfw.infra.usedmarket.item.dto.ItemVo;
 import com.jinfw.infra.usedmarket.item.service.ItemServiceImpl;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
@@ -22,16 +23,11 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/items")
 @RequiredArgsConstructor
 public class ItemController {
-  // TODO : 응답 형식 마저 수정
+
   private final ItemServiceImpl itemService;
 
-  /**
-   * 상품 등록 API
-   * 
-   * @param dto 상품 등록 요청 데이터
-   * @return 등록된 상품 seq
-   * @throws Exception
-   */
+  // 상품 등록 API
+  @Operation(summary = "상품 등록", description = "상품을 등록 합니다.")
   @PostMapping("/register")
   public ResponseEntity<ResponseVo<Object>> instItem(@RequestBody ItemDto dto) throws Exception {
 
@@ -42,30 +38,28 @@ public class ItemController {
     return ResponseEntity.ok(res);
   }
 
-  /**
-   * 상품 목록 조회 API
-   * 
-   * @param page 현재 페이지 번호 (1부터 시작)
-   * @param int size 페이지당 항목 수
-   * @return 지정된 size만큼 상품리스트 리턴
-   * @throws Exception
-   */
+  // 상품 목록 조회 API
+  @Operation(summary = "상품 리스트 조회", description = "상품 리스트를 조회 합니다.")
   @GetMapping("/list")
-  public ResponseEntity<List<ItemVo>> getItemList(@RequestParam(defaultValue = "1") int page,
-      @RequestParam(defaultValue = "12") int size) throws Exception {
-    return ResponseEntity.ok(itemService.getItemList(page, size));
+  public ResponseEntity<ResponseVo<List<ItemVo>>> getItemList(
+      @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "12") int size)
+      throws Exception {
+
+    List<ItemVo> vo = itemService.getItemList(page, size);
+    ResponseVo<List<ItemVo>> res = new ResponseVo<>(true, "상품 목록 조회 성공", vo);
+
+    return ResponseEntity.ok(res);
   }
 
-  /**
-   * 상품 단일 조회 API
-   * 
-   * @param dto 조회할 상품 seq
-   * @return vo 조회된 상품 객체
-   * @throws Exception
-   */
+  // 상품 조회 API
+  @Operation(summary = "상품 조회", description = "단일 상품을 조회 합니다.")
   @GetMapping("/detail")
-  public ResponseEntity<ItemVo> getItemOne(@RequestParam int seq) throws Exception {
-    return ResponseEntity.ok(itemService.getItemOne(seq));
+  public ResponseEntity<ResponseVo<ItemVo>> getItemOne(@RequestParam int seq) throws Exception {
+
+    ItemVo vo = itemService.getItemOne(seq);
+    ResponseVo<ItemVo> res = new ResponseVo<>(true, "상품 조회 성공", vo);
+
+    return ResponseEntity.ok(res);
   }
 
 }

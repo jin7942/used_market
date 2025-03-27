@@ -39,7 +39,7 @@ public class UserController {
   public ResponseEntity<ResponseVo<Boolean>> instUser(@RequestBody UserDto dto) throws Exception {
 
     userService.instUser(dto);
-    ResponseVo<Boolean> res = new ResponseVo<>(true, "회원가입 성공", null);
+    ResponseVo<Boolean> res = new ResponseVo<>(true, "회원가입 성공", true);
 
     return ResponseEntity.ok(res);
   }
@@ -51,7 +51,7 @@ public class UserController {
       throws Exception {
 
     ResponseVo<Boolean> res =
-        new ResponseVo<>(true, "이메일 중복 체크 조회 결과", !userService.checkUserEmail(dto));
+        new ResponseVo<>(true, "이메일 중복 체크 조회 성공", !userService.checkUserEmail(dto));
 
     return ResponseEntity.ok(res);
   }
@@ -63,7 +63,7 @@ public class UserController {
       throws Exception {
 
     ResponseVo<Boolean> res =
-        new ResponseVo<>(true, "닉네임 중복 체크 조회 결과", !userService.checkUserNickname(dto));
+        new ResponseVo<>(true, "닉네임 중복 체크 조회 성공", !userService.checkUserNickname(dto));
 
     return ResponseEntity.ok(res);
   }

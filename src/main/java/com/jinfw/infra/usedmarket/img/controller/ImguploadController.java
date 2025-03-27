@@ -1,11 +1,11 @@
 package com.jinfw.infra.usedmarket.img.controller;
 
-import java.util.Map;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.jinfw.infra.usedmarket.common.dto.ResponseVo;
 import com.jinfw.infra.usedmarket.img.dto.ImguploadDto;
 import com.jinfw.infra.usedmarket.img.service.ImguploadServiceImpl;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -27,11 +27,12 @@ public class ImguploadController {
    * @throws Exception
    */
   @PostMapping("/upload")
-  public ResponseEntity<Map<String, Boolean>> instImgupload(@RequestBody ImguploadDto dto)
+  public ResponseEntity<ResponseVo<Boolean>> instImgupload(@RequestBody ImguploadDto dto)
       throws Exception {
 
+    ResponseVo<Boolean> res = new ResponseVo<>(true, "업로드 성공", imguploadService.instImgupload(dto));
 
-    return ResponseEntity.ok(Map.of("success", imguploadService.instImgupload(dto)));
+    return ResponseEntity.ok(res);
   }
 
 }

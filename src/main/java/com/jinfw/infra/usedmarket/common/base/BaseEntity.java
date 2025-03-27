@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
-// TODO: base response dto 정의 후 api응답 형식 통일
 /**
  * BaseEntity
  * 
