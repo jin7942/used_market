@@ -10,17 +10,18 @@ import com.jinfw.infra.usedmarket.img.entity.Imgupload;
 
 @Repository
 public interface ImguploadRepository extends JpaRepository<Imgupload, Integer> {
-  @Query("SELECT new com.jinfw.infra.usedmarket.img.vo.ImguploadVo("
-      + "i.imgPseq, i.imgSort, i.imgUploadName, "
-      + "i.imgUploadUuidName, i.imgUploadPath, i.imgUploadExt, i.imgUploadTypeCode) "
-      + "FROM Imgupload i WHERE i.imgPseq = :seq AND i.imgSort = 1 AND i.imgUploadTypeCode = 'ITEM'")
-  public ImguploadVo findThumbnailByItemSeq(@Param("seq") int seq);
 
-  @Query("SELECT new com.jinfw.infra.usedmarket.img.vo.ImguploadVo("
+  @Query("SELECT new com.jinfw.infra.usedmarket.img.dto.ImguploadVo("
       + "i.imgPseq, i.imgSort, i.imgUploadName, "
       + "i.imgUploadUuidName, i.imgUploadPath, i.imgUploadExt, i.imgUploadTypeCode) "
-      + "FROM Imgupload i " + "WHERE i.imgPseq = :seq AND i.imgUploadTypeCode = 'ITEM' "
+      + "FROM Imgupload i "
+      + "WHERE i.imgPseq = :seq AND i.imgSort = 1 AND i.imgUploadTypeCode = :type")
+  ImguploadVo findThumbnailByImgPseq(@Param("seq") int seq, @Param("type") String type);
+
+  @Query("SELECT new com.jinfw.infra.usedmarket.img.dto.ImguploadVo("
+      + "i.imgPseq, i.imgSort, i.imgUploadName, "
+      + "i.imgUploadUuidName, i.imgUploadPath, i.imgUploadExt, i.imgUploadTypeCode) "
+      + "FROM Imgupload i " + "WHERE i.imgPseq = :seq AND i.imgUploadTypeCode = :type "
       + "ORDER BY i.imgSort ASC")
-  public List<ImguploadVo> findImgListByItemSeq(@Param("seq") int seq);
-
+  List<ImguploadVo> findImgListByImgPseq(@Param("seq") int seq, @Param("type") String type);
 }

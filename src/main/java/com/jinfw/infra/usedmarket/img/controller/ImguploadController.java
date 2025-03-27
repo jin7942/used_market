@@ -47,7 +47,8 @@ public class ImguploadController {
   }
 
   // 이미지 리스트 조회
-  @GetMapping("getImgList")
+  @Operation(summary = "이미지 리스트 조회", description = "상품 목록을 조회 합니다.")
+  @GetMapping("/list")
   public ResponseEntity<ResponseVo<List<ImguploadVo>>> getImgList(@RequestParam int seq)
       throws Exception {
 
