@@ -26,12 +26,9 @@ public class ItemVo {
   // 업데이트 날짜
   private LocalDateTime updateDT;
 
-  // 대표 이미지 URL
-  // private String itemImgUrl;
-
   // 이미지 정보
   private String imgUploadPath;
-  private String imgUploadUuidname;
+  private String imgUploadUuidName;
   private String imgUploadExt;
 
 }

@@ -26,7 +26,7 @@ public class SecurityConfig {
         .sessionManagement(
             session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/api/users/**", "/api/item/**", "/swagger-ui/**", "/v3/api-docs/**")
+            .requestMatchers("/api/users/**", "/api/items/**", "/swagger-ui/**", "/v3/api-docs/**")
             .permitAll().requestMatchers("/api/admin/**").hasRole("ADMIN").anyRequest()
             .authenticated())
         .httpBasic(httpBasic -> httpBasic.disable())

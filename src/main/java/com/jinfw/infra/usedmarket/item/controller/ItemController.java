@@ -1,7 +1,6 @@
 package com.jinfw.infra.usedmarket.item.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.jinfw.infra.usedmarket.common.dto.ResponseVo;
 import com.jinfw.infra.usedmarket.item.dto.ItemDto;
+import com.jinfw.infra.usedmarket.item.dto.ItemListVo;
 import com.jinfw.infra.usedmarket.item.dto.ItemVo;
 import com.jinfw.infra.usedmarket.item.service.ItemServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
@@ -41,12 +41,12 @@ public class ItemController {
   // 상품 목록 조회 API
   @Operation(summary = "상품 리스트 조회", description = "상품 리스트를 조회 합니다.")
   @GetMapping("/list")
-  public ResponseEntity<ResponseVo<List<ItemVo>>> getItemList(
+  public ResponseEntity<ResponseVo<ItemListVo>> getItemList(
       @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "12") int size)
       throws Exception {
 
-    List<ItemVo> vo = itemService.getItemList(page, size);
-    ResponseVo<List<ItemVo>> res = new ResponseVo<>(true, "상품 목록 조회 성공", vo);
+    ItemListVo vo = itemService.getItemList(page, size);
+    ResponseVo<ItemListVo> res = new ResponseVo<>(true, "상품 목록 조회 성공", vo);
 
     return ResponseEntity.ok(res);
   }

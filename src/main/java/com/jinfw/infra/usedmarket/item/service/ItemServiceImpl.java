@@ -1,9 +1,9 @@
 package com.jinfw.infra.usedmarket.item.service;
 
-import java.util.List;
 import org.springframework.stereotype.Service;
 import com.jinfw.infra.usedmarket.common.util.UtilDtoConverter;
 import com.jinfw.infra.usedmarket.item.dto.ItemDto;
+import com.jinfw.infra.usedmarket.item.dto.ItemListVo;
 import com.jinfw.infra.usedmarket.item.dto.ItemVo;
 import com.jinfw.infra.usedmarket.item.entity.Item;
 import com.jinfw.infra.usedmarket.item.repository.ItemRepository;
@@ -44,7 +44,7 @@ public class ItemServiceImpl {
    * @param size 페이지당 항목 수
    * @return List<ItemVo> 조회된 상품 리스트
    */
-  public List<ItemVo> getItemList(int page, int size) throws Exception {
+  public ItemListVo getItemList(int page, int size) throws Exception {
     return itemRepository.getItemList(page, size);
   }
 
