@@ -1,12 +1,14 @@
 package com.jinfw.infra.usedmarket.img.dto;
 
 import com.jinfw.infra.usedmarket.common.constants.CommonCode.ImageUploadTypeCode;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class ImguploadInfoDto {
+@AllArgsConstructor
+public class ImguploadVo {
 
   private int imgPseq; // 등록한 유저
 
@@ -25,10 +27,8 @@ public class ImguploadInfoDto {
   // 이미지 확장명
   private String imgUploadExt;
 
-  // 이미지 파일 사이즈(byte)
-  private String imgUploadSize;
-
   // 이미지 타입(공통 코드)
   private ImageUploadTypeCode imgUploadTypeCode;
+
 
 }

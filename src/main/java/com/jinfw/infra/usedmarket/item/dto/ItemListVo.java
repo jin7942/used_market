@@ -10,6 +10,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class ItemListVo {
-  private List<ItemVo> items;
+  private List<ItemVo> itemList;
   private PageInfoVo pageInfo;
 }

@@ -29,7 +29,7 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
             SELECT COUNT(*) FROM item a
             JOIN imgupload b ON a.seq = b.imgPseq
             JOIN user c ON c.seq = a.user_seq
-            WHERE b.imgUploadSort = 1
+            WHERE b.imgUploadSort = 0
               AND b.imgUploadStateCode = 'ENABLED'
               AND b.imgUploadTypeCode = 'ITEM'
         """;
@@ -50,7 +50,7 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
             FROM item a
             JOIN imgupload b ON a.seq = b.imgPseq
             JOIN user c ON c.seq = a.user_seq
-            WHERE b.imgUploadSort = 1
+            WHERE b.imgUploadSort = 0
               AND b.imgUploadStateCode = 'ENABLED'
               AND b.imgUploadTypeCode = 'ITEM'
             ORDER BY a.createDT DESC
