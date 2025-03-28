@@ -1,7 +1,9 @@
 package com.jinfw.infra.usedmarket.item.service;
 
 import org.springframework.stereotype.Service;
+import com.jinfw.infra.usedmarket.common.exception.InvalidLoginException;
 import com.jinfw.infra.usedmarket.common.util.UtilDtoConverter;
+import com.jinfw.infra.usedmarket.common.util.UtilJwt;
 import com.jinfw.infra.usedmarket.item.dto.ItemDto;
 import com.jinfw.infra.usedmarket.item.dto.ItemListVo;
 import com.jinfw.infra.usedmarket.item.dto.ItemVo;
@@ -10,6 +12,7 @@ import com.jinfw.infra.usedmarket.item.repository.ItemRepository;
 import com.jinfw.infra.usedmarket.user.entity.User;
 import com.jinfw.infra.usedmarket.user.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -19,6 +22,7 @@ public class ItemServiceImpl {
   private final ItemRepository itemRepository;
   private final UserRepository userRepository;
   private final UtilDtoConverter dtoConverter; // DTO 변환 유틸
+  private final UtilJwt utilJwt;
 
   /**
    * 상품 등록 함수
@@ -26,10 +30,12 @@ public class ItemServiceImpl {
    * @param reqDto
    * @return 등록된 상품 seq 반환
    */
-  public int instItem(ItemDto dto) throws Exception {
+  public int instItem(ItemDto dto, HttpServletRequest req) throws Exception {
+    // 토큰에서 이메일 추출
+    String email = utilJwt.extractUserEmailFromRequest(req);
+    User user = userRepository.findByUserEmail(email)
+        .orElseThrow(() -> new InvalidLoginException("해당 이메일에 대한 사용자를 찾을 수 없습니다."));
 
-    User user =
-        userRepository.findById(dto.getUserSeq()).orElseThrow(() -> new RuntimeException("사용자 없음"));
     Item item = dtoConverter.toEntity(dto, Item.class);
     item.setUserSeq(user);
     itemRepository.save(item);

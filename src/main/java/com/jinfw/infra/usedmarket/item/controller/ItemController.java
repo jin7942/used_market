@@ -16,6 +16,7 @@ import com.jinfw.infra.usedmarket.item.dto.ItemVo;
 import com.jinfw.infra.usedmarket.item.service.ItemServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
 @Tag(name = "Item API", description = "상품 관련 API")
@@ -29,11 +30,12 @@ public class ItemController {
   // 상품 등록 API
   @Operation(summary = "상품 등록", description = "상품을 등록 합니다.")
   @PostMapping("/register")
-  public ResponseEntity<ResponseVo<Object>> instItem(@RequestBody ItemDto dto) throws Exception {
+  public ResponseEntity<ResponseVo<Map<String, Object>>> instItem(@RequestBody ItemDto dto,
+      HttpServletRequest req) throws Exception {
 
     Map<String, Object> result = new HashMap<>();
-    result.put("seq", itemService.instItem(dto));
-    ResponseVo<Object> res = new ResponseVo<>(true, "상품 등록 성공", result);
+    result.put("seq", itemService.instItem(dto, req));
+    ResponseVo<Map<String, Object>> res = new ResponseVo<>(true, "상품 등록 성공", result);
 
     return ResponseEntity.ok(res);
   }

@@ -1,11 +1,13 @@
 package com.jinfw.infra.usedmarket.img.dto;
 
 import com.jinfw.infra.usedmarket.common.constants.CommonCode.ImageUploadTypeCode;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class ImguploadVo {
 
   private int imgPseq; // 등록한 유저
@@ -27,17 +29,5 @@ public class ImguploadVo {
 
   // 이미지 타입(공통 코드)
   private ImageUploadTypeCode imgUploadTypeCode;
-
-  public ImguploadVo(int imgPseq, int imgSort, String imgUploadName, String imgUploadUuidName,
-      String imgUploadPath, String imgUploadExt, ImageUploadTypeCode imgUploadTypeCode) {
-    this.imgPseq = imgPseq;
-    this.imgSort = imgSort;
-    this.imgUploadName = imgUploadName;
-    this.imgUploadUuidName = imgUploadUuidName;
-    this.imgUploadPath = imgUploadPath;
-    this.imgUploadExt = imgUploadExt;
-    this.imgUploadTypeCode = imgUploadTypeCode;
-  }
-
 
 }

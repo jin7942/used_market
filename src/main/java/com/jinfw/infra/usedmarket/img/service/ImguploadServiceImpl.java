@@ -17,7 +17,6 @@ public class ImguploadServiceImpl {
   private final ImguploadRepository imguploadRepository;
   private final UtilDtoConverter dtoConverter; // DTO 변환 유틸
 
-  // TODO: 공통필드 수정 프로필인지, 상품인지
   /**
    * 이미지 업로드
    * 
@@ -36,15 +35,13 @@ public class ImguploadServiceImpl {
     return true;
   }
 
-  // TODO: JPQL 좆까 네이티브 쿼리로 간다
   /**
-   * 이미지 썸네일 조회
+   * 썸네일 조회
    * 
    * @param itemSeq
-   * @return ImguploadVo
-   * @throws Exception
+   * @return
    */
-  public ImguploadVo getImgOne(int seq) throws Exception {
+  public ImguploadVo getImgOne(int seq) {
     return imguploadRepository.findThumbnailByImgPseq(seq, ImageUploadTypeCode.ITEM.name());
   }
 
@@ -52,11 +49,11 @@ public class ImguploadServiceImpl {
    * 이미지 리스트 조회
    * 
    * @param itemSeq
-   * @return List<ImguploadVo>
-   * @throws Exception
+   * @return
    */
-  public List<ImguploadVo> getImgList(int seq) throws Exception {
+  public List<ImguploadVo> getImgList(int seq) {
     return imguploadRepository.findImgListByImgPseq(seq, ImageUploadTypeCode.ITEM.name());
   }
+
 
 }

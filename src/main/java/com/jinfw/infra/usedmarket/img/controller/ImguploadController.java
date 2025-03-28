@@ -37,7 +37,7 @@ public class ImguploadController {
 
   // 썸네일 조회 API
   @Operation(summary = "썸네일 조회", description = "상품 썸네일을 조회 합니다.")
-  @GetMapping("/getImgThum")
+  @GetMapping("/imgThum")
   public ResponseEntity<ResponseVo<ImguploadVo>> getImgOne(@RequestParam int seq) throws Exception {
 
     ImguploadVo vo = imguploadService.getImgOne(seq);
@@ -47,7 +47,7 @@ public class ImguploadController {
   }
 
   // 이미지 리스트 조회
-  @Operation(summary = "이미지 리스트 조회", description = "상품 목록을 조회 합니다.")
+  @Operation(summary = "이미지 리스트 조회", description = "이미지 목록을 조회 합니다.")
   @GetMapping("/list")
   public ResponseEntity<ResponseVo<List<ImguploadVo>>> getImgList(@RequestParam int seq)
       throws Exception {

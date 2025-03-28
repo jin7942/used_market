@@ -3,9 +3,12 @@ package com.jinfw.infra.usedmarket.common.util;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import javax.crypto.SecretKey;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
+import com.jinfw.infra.usedmarket.common.exception.InvalidLoginException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
 
 @Component
 public class UtilJwt {
@@ -35,6 +38,25 @@ public class UtilJwt {
    */
   public String extractUserEmail(String token) {
     return Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload().getSubject();
+  }
+
+  /**
+   * http 헤더에서 사용자 이메일 추출
+   * 
+   * @param HttpServletRequest
+   * @return
+   */
+  public String extractUserEmailFromRequest(HttpServletRequest request) {
+    try {
+      String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+      if (authHeader != null && authHeader.startsWith("Bearer ")) {
+        String token = authHeader.substring(7);
+        return extractUserEmail(token); // 여기서 Exception 발생 가능
+      }
+      throw new InvalidLoginException("토큰이 없습니다.");
+    } catch (Exception e) {
+      throw new InvalidLoginException("토큰 파싱에 실패했습니다.");
+    }
   }
 
   /**
