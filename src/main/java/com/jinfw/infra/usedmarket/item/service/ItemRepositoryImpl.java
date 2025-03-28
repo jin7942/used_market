@@ -1,7 +1,6 @@
 package com.jinfw.infra.usedmarket.item.service;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 import java.util.List;
 import org.springframework.stereotype.Repository;
 import com.jinfw.infra.usedmarket.common.dto.PageInfoVo;
@@ -61,12 +60,12 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
 
     List<ItemVo> voList = rows.stream().map(row -> {
       Object[] obj = (Object[]) row;
-      return new ItemVo(Integer.parseInt(String.valueOf(obj[0])), // item Pk
+      return new ItemVo(((Number) obj[0]).intValue(), // item Pk
           (String) obj[1], // userNickname
           (String) obj[2], // itemTitle
           (String) obj[3], // itemDescirption
-          (Integer) obj[4], // itemPrice
-          (LocalDateTime) obj[5], // updateDT
+          ((Number) obj[4]).intValue(), // itemPrice
+          ((Timestamp) obj[5]).toLocalDateTime(), // updateDT
           (String) obj[6], // imgUploadPath
           (String) obj[7], // imgUploadUuidName
           (String) obj[8] // imgUploadExt

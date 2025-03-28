@@ -11,7 +11,7 @@ public class ImguploadInfoDto {
   private int imgPseq; // 등록한 유저
 
   // 정렬 순서
-  private int imgSort;
+  private int imgUploadSort;
 
   // 이미지 파일명
   private String imgUploadName;

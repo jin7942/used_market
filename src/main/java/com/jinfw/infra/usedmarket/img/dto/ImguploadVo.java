@@ -1,6 +1,5 @@
 package com.jinfw.infra.usedmarket.img.dto;
 
-import com.jinfw.infra.usedmarket.common.constants.CommonCode.ImageUploadTypeCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,7 +12,7 @@ public class ImguploadVo {
   private int imgPseq; // 등록한 유저
 
   // 정렬 순서
-  private int imgSort;
+  private int imgUploadSort;
 
   // 이미지 파일명
   private String imgUploadName;
@@ -28,6 +27,6 @@ public class ImguploadVo {
   private String imgUploadExt;
 
   // 이미지 타입(공통 코드)
-  private ImageUploadTypeCode imgUploadTypeCode;
+  private String imgUploadTypeCode;
 
 }

@@ -14,7 +14,7 @@ public interface ImguploadRepository extends JpaRepository<Imgupload, Integer> {
   @Query(value = """
       SELECT
         imgPseq,
-        imgSort,
+        imgUploadSort,
         imgUploadName,
         imgUploadUuidName,
         imgUploadPath,
@@ -31,7 +31,7 @@ public interface ImguploadRepository extends JpaRepository<Imgupload, Integer> {
   @Query(value = """
       SELECT
         imgPseq,
-        imgSort,
+        imgUploadSort,
         imgUploadName,
         imgUploadUuidName,
         imgUploadPath,
@@ -40,7 +40,7 @@ public interface ImguploadRepository extends JpaRepository<Imgupload, Integer> {
       FROM imgupload
       WHERE imgPseq = :seq
         AND imgUploadTypeCode = :type
-      ORDER BY imgSort ASC
+      ORDER BY imgUploadSort ASC
       """, nativeQuery = true)
   List<ImguploadVo> findImgListByImgPseq(@Param("seq") int seq, @Param("type") String type);
 }
