@@ -65,7 +65,7 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
           (String) obj[1], // userNickname
           (String) obj[2], // itemTitle
           (String) obj[3], // itemDescirption
-          (BigDecimal) obj[4], // itemPrice
+          (Integer) obj[4], // itemPrice
           (LocalDateTime) obj[5], // updateDT
           (String) obj[6], // imgUploadPath
           (String) obj[7], // imgUploadUuidName

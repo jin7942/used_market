@@ -1,6 +1,5 @@
 package com.jinfw.infra.usedmarket.item.entity;
 
-import java.math.BigDecimal;
 import com.jinfw.infra.usedmarket.common.base.BaseEntity;
 import com.jinfw.infra.usedmarket.common.constants.CommonCode.ItemStatusCode;
 import com.jinfw.infra.usedmarket.user.entity.User;
@@ -47,7 +46,7 @@ public class Item extends BaseEntity {
 
   // 상품 가격
   @Column(name = "itemPrice", nullable = false)
-  private BigDecimal itemPrice;
+  private int itemPrice;
 
   // 상품 상태(공통 코드)
   @Enumerated(EnumType.STRING)

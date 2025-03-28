@@ -1,6 +1,5 @@
 package com.jinfw.infra.usedmarket.item.dto;
 
-import java.math.BigDecimal;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,6 +19,6 @@ public class ItemDto {
   private String itemDescription;
 
   // 상품 가격
-  private BigDecimal itemPrice;
+  private int itemPrice;
 
 }

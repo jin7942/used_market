@@ -1,6 +1,5 @@
 package com.jinfw.infra.usedmarket.item.dto;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,7 +20,7 @@ public class ItemVo {
   private String itemDescription;
 
   // 상품 가격
-  private BigDecimal itemPrice;
+  private int itemPrice;
 
   // 업데이트 날짜
   private LocalDateTime updateDT;

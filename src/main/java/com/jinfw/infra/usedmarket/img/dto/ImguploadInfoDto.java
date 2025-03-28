@@ -11,7 +11,7 @@ public class ImguploadInfoDto {
   private int imgPseq; // 등록한 유저
 
   // 정렬 순서
-  private String imgSort;
+  private int imgSort;
 
   // 이미지 파일명
   private String imgUploadName;
@@ -26,7 +26,7 @@ public class ImguploadInfoDto {
   private String imgUploadExt;
 
   // 이미지 파일 사이즈(byte)
-  private String imgUploadSize;
+  private int imgUploadSize;
 
   // 이미지 타입(공통 코드)
   private ImageUploadTypeCode imgUploadTypeCode;
