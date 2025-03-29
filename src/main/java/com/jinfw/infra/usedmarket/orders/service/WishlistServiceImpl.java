@@ -33,6 +33,28 @@ public class WishlistServiceImpl {
   private final UtilJwt utilJwt;
 
   /**
+   * http헤더에서 사용자 정보 추출 함수
+   * 
+   * @param req http 헤더
+   * @return User 객체
+   */
+  public User getUserFromRequest(HttpServletRequest req) {
+    String email = utilJwt.extractUserEmailFromRequest(req);
+    return userRepository.findByUserEmail(email)
+        .orElseThrow(() -> new InvalidLoginException("사용자 없음"));
+  }
+
+  /**
+   * itemSeq로 아이템 조회 함수
+   * 
+   * @param itemSeq
+   * @return Item 객체
+   */
+  public Item getItemById(int itemSeq) {
+    return itemRepository.findById(itemSeq).orElseThrow(() -> new RuntimeException("상품 없음"));
+  }
+
+  /**
    * 찜하기 토글 함수
    * 
    * @param itemSeq
@@ -42,13 +64,8 @@ public class WishlistServiceImpl {
    */
   @Transactional
   public boolean toggleWishlist(int itemSeq, HttpServletRequest req) throws Exception {
-    String email = utilJwt.extractUserEmailFromRequest(req);
-
-    User user = userRepository.findByUserEmail(email)
-        .orElseThrow(() -> new InvalidLoginException("해당 이메일에 대한 사용자를 찾을 수 없습니다."));
-
-    Item item = itemRepository.findById(itemSeq)
-        .orElseThrow(() -> new RuntimeException("해당 상품이 존재하지 않습니다."));
+    User user = getUserFromRequest(req);
+    Item item = getItemById(itemSeq);
 
     Optional<Wishlist> existing = wishlistRepository.findByUserSeqAndItemSeq(user, item);
 
@@ -68,7 +85,7 @@ public class WishlistServiceImpl {
   }
 
   /**
-   * 찜하기 목록 조회
+   * 찜하기 목록 조회 함수
    * 
    * @param req http헤더
    * @return List<ItemVo>
@@ -76,9 +93,7 @@ public class WishlistServiceImpl {
    */
   @Transactional(readOnly = true)
   public List<ItemVo> getWishlist(HttpServletRequest req) throws Exception {
-    String email = utilJwt.extractUserEmailFromRequest(req);
-    User user = userRepository.findByUserEmail(email)
-        .orElseThrow(() -> new InvalidLoginException("해당 이메일에 대한 사용자를 찾을 수 없습니다."));
+    User user = getUserFromRequest(req);
 
     List<Wishlist> wishlist = wishlistRepository.findByUserSeq(user);
 
@@ -109,13 +124,10 @@ public class WishlistServiceImpl {
    * @throws Exception
    */
   public int getWishlistCount(HttpServletRequest req) throws Exception {
-    String email = utilJwt.extractUserEmailFromRequest(req);
-    User user = userRepository.findByUserEmail(email)
-        .orElseThrow(() -> new InvalidLoginException("해당 이메일에 대한 사용자를 찾을 수 없습니다."));
+    User user = getUserFromRequest(req);
 
     return wishlistRepository.countByUserSeq(user);
   }
-
 
   /**
    * 특정 상품에 대해 찜 여부 확인
@@ -126,12 +138,8 @@ public class WishlistServiceImpl {
    * @throws Exception
    */
   public boolean checkIfWished(int itemSeq, HttpServletRequest req) throws Exception {
-    String email = utilJwt.extractUserEmailFromRequest(req);
-    User user = userRepository.findByUserEmail(email)
-        .orElseThrow(() -> new InvalidLoginException("사용자 없음"));
-
-    Item item = new Item();
-    item.setSeq(itemSeq);
+    User user = getUserFromRequest(req);
+    Item item = getItemById(itemSeq);
 
     return wishlistRepository.existsByUserSeqAndItemSeq(user, item);
   }
