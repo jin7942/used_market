@@ -1,4 +1,4 @@
-package com.jinfw.infra.usedmarket.orders;
+package com.jinfw.infra.usedmarket.orders.entity;
 
 import java.math.BigDecimal;
 import com.jinfw.infra.usedmarket.common.base.BaseEntity;
