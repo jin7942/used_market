@@ -13,4 +13,9 @@ public interface WishlistRepository extends JpaRepository<Wishlist, Integer> {
   Optional<Wishlist> findByUserSeqAndItemSeq(User user, Item item);
 
   List<Wishlist> findByUserSeq(User user);
+
+  int countByUserSeq(User user);
+
+  boolean existsByUserSeqAndItemSeq(User user, Item item);
+
 }

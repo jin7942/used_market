@@ -46,4 +46,26 @@ public class OrdersController {
     return ResponseEntity.ok(new ResponseVo<>(true, "찜 목록 조회 성공", result));
   }
 
+  // 찜한 상품 카운트 API
+  @Operation(summary = "찜한 목록 갯수", description = "찜한 목록 갯수 조회 API 입니다.")
+  @GetMapping("/wishlist/count")
+  public ResponseEntity<ResponseVo<Integer>> getWishlistCount(HttpServletRequest req)
+      throws Exception {
+    int count = wishlistServiceImpl.getWishlistCount(req);
+
+    return ResponseEntity.ok(new ResponseVo<>(true, "찜 개수 조회 성공", count));
+  }
+
+  // 찜 여부 확인 API
+  @Operation(summary = "찜 여부 확인", description = "상품에 대한 찜 여부 확인 API 입니다.")
+  @GetMapping("/wishlist/checkIfWished")
+  public ResponseEntity<ResponseVo<Boolean>> checkIfWished(int itemSeq, HttpServletRequest req)
+      throws Exception {
+
+    boolean exists = wishlistServiceImpl.checkIfWished(itemSeq, req);
+
+    return ResponseEntity.ok(new ResponseVo<>(true, "찜 여부 확인 성공", exists));
+  }
+
+
 }

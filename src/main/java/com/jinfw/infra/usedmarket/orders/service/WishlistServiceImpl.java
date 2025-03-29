@@ -77,7 +77,6 @@ public class WishlistServiceImpl {
   @Transactional(readOnly = true)
   public List<ItemVo> getWishlist(HttpServletRequest req) throws Exception {
     String email = utilJwt.extractUserEmailFromRequest(req);
-
     User user = userRepository.findByUserEmail(email)
         .orElseThrow(() -> new InvalidLoginException("해당 이메일에 대한 사용자를 찾을 수 없습니다."));
 
@@ -102,5 +101,39 @@ public class WishlistServiceImpl {
     }).toList();
   }
 
+  /**
+   * 찜한 상품 카운트 함수
+   * 
+   * @param req http 헤더
+   * @return 찜목록 갯수
+   * @throws Exception
+   */
+  public int getWishlistCount(HttpServletRequest req) throws Exception {
+    String email = utilJwt.extractUserEmailFromRequest(req);
+    User user = userRepository.findByUserEmail(email)
+        .orElseThrow(() -> new InvalidLoginException("해당 이메일에 대한 사용자를 찾을 수 없습니다."));
+
+    return wishlistRepository.countByUserSeq(user);
+  }
+
+
+  /**
+   * 특정 상품에 대해 찜 여부 확인
+   * 
+   * @param itemSeq
+   * @param req http 헤더
+   * @return true / false
+   * @throws Exception
+   */
+  public boolean checkIfWished(int itemSeq, HttpServletRequest req) throws Exception {
+    String email = utilJwt.extractUserEmailFromRequest(req);
+    User user = userRepository.findByUserEmail(email)
+        .orElseThrow(() -> new InvalidLoginException("사용자 없음"));
+
+    Item item = new Item();
+    item.setSeq(itemSeq);
+
+    return wishlistRepository.existsByUserSeqAndItemSeq(user, item);
+  }
 
 }
