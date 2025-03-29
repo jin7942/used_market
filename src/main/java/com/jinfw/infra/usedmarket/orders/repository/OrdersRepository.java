@@ -7,4 +7,6 @@ import com.jinfw.infra.usedmarket.orders.entity.Orders;
 @Repository
 public interface OrdersRepository extends JpaRepository<Orders, Integer> {
 
+
+
 }
