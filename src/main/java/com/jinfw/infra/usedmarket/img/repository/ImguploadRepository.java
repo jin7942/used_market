@@ -22,7 +22,7 @@ public interface ImguploadRepository extends JpaRepository<Imgupload, Integer> {
         imgUploadTypeCode
       FROM imgupload
       WHERE imgPseq = :seq
-        AND imgSort = 1
+        AND imgUploadSort = 1
         AND imgUploadTypeCode = :type
       LIMIT 1
       """, nativeQuery = true)
