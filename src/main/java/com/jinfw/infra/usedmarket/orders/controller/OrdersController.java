@@ -60,8 +60,8 @@ public class OrdersController {
   // 찜 여부 확인 API
   @Operation(summary = "찜 여부 확인", description = "상품에 대한 찜 여부 확인 API 입니다.")
   @GetMapping("/wishlist/checkIfWished")
-  public ResponseEntity<ResponseVo<Boolean>> checkIfWished(int itemSeq, HttpServletRequest req)
-      throws Exception {
+  public ResponseEntity<ResponseVo<Boolean>> checkIfWished(@RequestParam int itemSeq,
+      HttpServletRequest req) throws Exception {
 
     boolean exists = wishlistServiceImpl.checkIfWished(itemSeq, req);
 
