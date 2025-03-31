@@ -2,15 +2,16 @@ package com.jinfw.infra.usedmarket.item.service;
 
 import java.util.List;
 import org.springframework.stereotype.Service;
+import com.jinfw.infra.usedmarket.common.constants.CommonCode.ItemStatusCode;
 import com.jinfw.infra.usedmarket.common.util.UtilDtoConverter;
-import com.jinfw.infra.usedmarket.common.util.UtilJwt;
+import com.jinfw.infra.usedmarket.img.dto.ImguploadVo;
+import com.jinfw.infra.usedmarket.img.repository.ImguploadRepository;
 import com.jinfw.infra.usedmarket.item.dto.ItemDto;
 import com.jinfw.infra.usedmarket.item.dto.ItemListVo;
 import com.jinfw.infra.usedmarket.item.dto.ItemVo;
 import com.jinfw.infra.usedmarket.item.entity.Item;
 import com.jinfw.infra.usedmarket.item.repository.ItemRepository;
 import com.jinfw.infra.usedmarket.user.entity.User;
-import com.jinfw.infra.usedmarket.user.repository.UserRepository;
 import com.jinfw.infra.usedmarket.user.service.UserServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,10 +22,9 @@ import lombok.RequiredArgsConstructor;
 public class ItemServiceImpl {
 
   private final ItemRepository itemRepository;
-  private final UserRepository userRepository;
   private final UserServiceImpl userService;
   private final UtilDtoConverter dtoConverter; // DTO 변환 유틸
-  private final UtilJwt utilJwt;
+  private final ImguploadRepository imguploadRepository;
 
   /**
    * itemSeq로 아이템 조회 함수
@@ -83,8 +83,61 @@ public class ItemServiceImpl {
     return vo;
   }
 
-  public List<ItemVo> getItemSelling(HttpServletRequest req) throws Exception {
+  /**
+   * 판매중인 상품 조회 함수
+   * 
+   * @param http 헤더
+   * @return List<ItemVo>
+   * @throws Exception
+   */
+  public List<ItemVo> getItemSellingByUser(HttpServletRequest req) throws Exception {
+    User user = userService.getUserFromRequest(req);
+    List<Item> itemList =
+        itemRepository.findByUserSeqAndItemStateCode(user, ItemStatusCode.SELLING);
 
+    return itemList.stream().map(item -> {
+      // 썸네일 조회
+      ImguploadVo img = imguploadRepository.findThumbnailByImgPseq(item.getSeq(), "ITEM");
+      // 필요한 정보만 담은 Vo 생성
+      return new ItemVo(item.getSeq(), // PK
+          item.getUserSeq().getUserNickname(), // userNickname
+          item.getItemTitle(), // itemTitle
+          item.getItemDescription(), // itemDescription
+          item.getItemPrice(), // itemPrice
+          item.getUpdateDT(), // updateDT
+          img.getImgUploadPath(), // 이미지 주소
+          img.getImgUploadUuidName(), // 이미지 이름
+          img.getImgUploadExt() // 이미지 확장자
+      );
+    }).toList();
+  }
+
+  /**
+   * 판매한 상품 조회 함수
+   * 
+   * @param req http 헤더
+   * @return List<ItemVo>
+   * @throws Exception
+   */
+  public List<ItemVo> getItemSoldByUser(HttpServletRequest req) throws Exception {
+    User user = userService.getUserFromRequest(req);
+    List<Item> itemList = itemRepository.findByUserSeqAndItemStateCode(user, ItemStatusCode.SOLD);
+
+    return itemList.stream().map(item -> {
+      // 썸네일 조회
+      ImguploadVo img = imguploadRepository.findThumbnailByImgPseq(item.getSeq(), "ITEM");
+      // 필요한 정보만 담은 Vo 생성
+      return new ItemVo(item.getSeq(), // PK
+          item.getUserSeq().getUserNickname(), // userNickname
+          item.getItemTitle(), // itemTitle
+          item.getItemDescription(), // itemDescription
+          item.getItemPrice(), // itemPrice
+          item.getUpdateDT(), // updateDT
+          img.getImgUploadPath(), // 이미지 주소
+          img.getImgUploadUuidName(), // 이미지 이름
+          img.getImgUploadExt() // 이미지 확장자
+      );
+    }).toList();
   }
 
 }

@@ -3,6 +3,7 @@ package com.jinfw.infra.usedmarket.orders.service;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.jinfw.infra.usedmarket.common.constants.CommonCode.ItemStatusCode;
 import com.jinfw.infra.usedmarket.common.constants.CommonCode.OrderStatusCode;
 import com.jinfw.infra.usedmarket.item.entity.Item;
 import com.jinfw.infra.usedmarket.item.service.ItemServiceImpl;
@@ -50,6 +51,7 @@ public class OrdersServiceImpl {
       if (ordersRepository.existsByUserSeqAndItemSeq(user, item)) {
         continue; // 또는 로그만 남기고 넘어감
       }
+      item.setItemStateCode(ItemStatusCode.SOLD);
 
       Orders order = new Orders();
       order.setUserSeq(user);

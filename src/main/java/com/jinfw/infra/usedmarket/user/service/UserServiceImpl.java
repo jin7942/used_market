@@ -8,7 +8,6 @@ import com.jinfw.infra.usedmarket.common.constants.CommonCode.UserStatusCode;
 import com.jinfw.infra.usedmarket.common.exception.InvalidLoginException;
 import com.jinfw.infra.usedmarket.common.util.UtilDtoConverter;
 import com.jinfw.infra.usedmarket.common.util.UtilJwt;
-import com.jinfw.infra.usedmarket.item.repository.ItemRepository;
 import com.jinfw.infra.usedmarket.user.dto.UserDto;
 import com.jinfw.infra.usedmarket.user.dto.UserVo;
 import com.jinfw.infra.usedmarket.user.entity.User;
@@ -21,7 +20,6 @@ import lombok.RequiredArgsConstructor;
 public class UserServiceImpl {
 
   private final UserRepository userRepository;
-  private final ItemRepository itemRepository;
   private final BCryptPasswordEncoder passwordEncoder; // 비밀번호 암호화
   private final UtilDtoConverter dtoConverter; // DTO 변환 유틸
   private final UtilJwt utilJwt;
@@ -104,11 +102,6 @@ public class UserServiceImpl {
     user.setUserPassword(encryptedPassword);
     user.setUserRoleCode(UserRoleCode.USER);
     user.setUserStateCode(UserStatusCode.ACTIVE);
-
-    System.out.println(user.getUserEmail());
-    System.out.println(user.getUserNickname());
-
-
 
     // 4. DB에 저장
     User res = userRepository.save(user);

@@ -1,6 +1,7 @@
 package com.jinfw.infra.usedmarket.item.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -64,4 +65,27 @@ public class ItemController {
     return ResponseEntity.ok(res);
   }
 
+  // 사용자가 판매중인 상품 조회 API
+  @Operation(summary = "사용자가 판매중인 상품 조회", description = "사용자가 판매중인 상품을 조회 합니다.")
+  @GetMapping("/selling")
+  public ResponseEntity<ResponseVo<List<ItemVo>>> getItemSellingByUser(HttpServletRequest req)
+      throws Exception {
+
+    List<ItemVo> voList = itemService.getItemSellingByUser(req);
+    ResponseVo<List<ItemVo>> res = new ResponseVo<>(true, "판매중인 상품 조회 성공", voList);
+
+    return ResponseEntity.ok(res);
+  }
+
+  // 사용자가 판매중인 상품 조회 API
+  @Operation(summary = "사용자가 판매한 상품 조회", description = "사용자가 판매한 상품을 조회 합니다.")
+  @GetMapping("/sold")
+  public ResponseEntity<ResponseVo<List<ItemVo>>> getItemSoldByUser(HttpServletRequest req)
+      throws Exception {
+
+    List<ItemVo> voList = itemService.getItemSoldByUser(req);
+    ResponseVo<List<ItemVo>> res = new ResponseVo<>(true, "판매한상품 조회 성공", voList);
+
+    return ResponseEntity.ok(res);
+  }
 }
