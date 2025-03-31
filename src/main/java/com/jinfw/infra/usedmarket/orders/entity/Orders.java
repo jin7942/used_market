@@ -1,6 +1,5 @@
 package com.jinfw.infra.usedmarket.orders.entity;
 
-import java.math.BigDecimal;
 import com.jinfw.infra.usedmarket.common.base.BaseEntity;
 import com.jinfw.infra.usedmarket.common.constants.CommonCode.OrderStatusCode;
 import com.jinfw.infra.usedmarket.item.entity.Item;
@@ -49,9 +48,5 @@ public class Orders extends BaseEntity {
   @Enumerated(EnumType.STRING)
   @Column(name = "orderStateCode", nullable = false)
   private OrderStatusCode orderStateCode = OrderStatusCode.PENDING;
-
-  // 결제 금액
-  @Column(name = "orderPrice", nullable = false)
-  private BigDecimal orderPrice;
 
 }

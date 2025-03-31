@@ -18,4 +18,6 @@ public interface WishlistRepository extends JpaRepository<Wishlist, Integer> {
 
   boolean existsByUserSeqAndItemSeq(User user, Item item);
 
+  void deleteByUserSeqAndItemSeq(User user, Item item);
+
 }

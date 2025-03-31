@@ -90,4 +90,6 @@ public class UserController {
     return ResponseEntity.ok(res);
   }
 
+  // TODO: 프로필 수정 구현
+
 }

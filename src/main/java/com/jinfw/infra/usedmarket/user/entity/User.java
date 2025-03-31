@@ -45,7 +45,7 @@ public class User extends BaseEntity {
   // 유저 프로필 이미지 URL
   // 기본 이미지 지정
   @Column(name = "userProfileImg", nullable = true)
-  private String userProfileImg;
+  private String userProfileImg = "http://localhost:4000/upload/baseImg.png";
 
   // 유저 권한(공통 코드)
   @Enumerated(EnumType.STRING)

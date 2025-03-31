@@ -1,5 +1,6 @@
 package com.jinfw.infra.usedmarket.orders.repository;
 
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import com.jinfw.infra.usedmarket.item.entity.Item;
@@ -11,4 +12,5 @@ public interface OrdersRepository extends JpaRepository<Orders, Integer> {
 
   boolean existsByUserSeqAndItemSeq(User user, Item item);
 
+  List<Orders> findByUserSeq(User user);
 }

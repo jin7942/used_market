@@ -4,8 +4,6 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import com.jinfw.infra.usedmarket.common.constants.CommonCode.ItemStatusCode;
 import com.jinfw.infra.usedmarket.common.util.UtilDtoConverter;
-import com.jinfw.infra.usedmarket.img.dto.ImguploadVo;
-import com.jinfw.infra.usedmarket.img.repository.ImguploadRepository;
 import com.jinfw.infra.usedmarket.item.dto.ItemDto;
 import com.jinfw.infra.usedmarket.item.dto.ItemListVo;
 import com.jinfw.infra.usedmarket.item.dto.ItemVo;
@@ -24,7 +22,6 @@ public class ItemServiceImpl {
   private final ItemRepository itemRepository;
   private final UserServiceImpl userService;
   private final UtilDtoConverter dtoConverter; // DTO 변환 유틸
-  private final ImguploadRepository imguploadRepository;
 
   /**
    * itemSeq로 아이템 조회 함수
@@ -95,21 +92,7 @@ public class ItemServiceImpl {
     List<Item> itemList =
         itemRepository.findByUserSeqAndItemStateCode(user, ItemStatusCode.SELLING);
 
-    return itemList.stream().map(item -> {
-      // 썸네일 조회
-      ImguploadVo img = imguploadRepository.findThumbnailByImgPseq(item.getSeq(), "ITEM");
-      // 필요한 정보만 담은 Vo 생성
-      return new ItemVo(item.getSeq(), // PK
-          item.getUserSeq().getUserNickname(), // userNickname
-          item.getItemTitle(), // itemTitle
-          item.getItemDescription(), // itemDescription
-          item.getItemPrice(), // itemPrice
-          item.getUpdateDT(), // updateDT
-          img.getImgUploadPath(), // 이미지 주소
-          img.getImgUploadUuidName(), // 이미지 이름
-          img.getImgUploadExt() // 이미지 확장자
-      );
-    }).toList();
+    return dtoConverter.toItemVoList(itemList);
   }
 
   /**
@@ -123,21 +106,7 @@ public class ItemServiceImpl {
     User user = userService.getUserFromRequest(req);
     List<Item> itemList = itemRepository.findByUserSeqAndItemStateCode(user, ItemStatusCode.SOLD);
 
-    return itemList.stream().map(item -> {
-      // 썸네일 조회
-      ImguploadVo img = imguploadRepository.findThumbnailByImgPseq(item.getSeq(), "ITEM");
-      // 필요한 정보만 담은 Vo 생성
-      return new ItemVo(item.getSeq(), // PK
-          item.getUserSeq().getUserNickname(), // userNickname
-          item.getItemTitle(), // itemTitle
-          item.getItemDescription(), // itemDescription
-          item.getItemPrice(), // itemPrice
-          item.getUpdateDT(), // updateDT
-          img.getImgUploadPath(), // 이미지 주소
-          img.getImgUploadUuidName(), // 이미지 이름
-          img.getImgUploadExt() // 이미지 확장자
-      );
-    }).toList();
+    return dtoConverter.toItemVoList(itemList);
   }
 
 }

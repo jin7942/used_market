@@ -43,8 +43,8 @@ public class OrdersController {
   @GetMapping("/wishlist")
   public ResponseEntity<ResponseVo<List<ItemVo>>> getWishlist(HttpServletRequest req)
       throws Exception {
-    List<ItemVo> result = wishlistServiceImpl.getWishlist(req);
-    return ResponseEntity.ok(new ResponseVo<>(true, "찜 목록 조회 성공", result));
+    List<ItemVo> voList = wishlistServiceImpl.getWishlist(req);
+    return ResponseEntity.ok(new ResponseVo<>(true, "찜 목록 조회 성공", voList));
   }
 
   // 찜한 상품 카운트 API
@@ -79,6 +79,15 @@ public class OrdersController {
     return ResponseEntity.ok(new ResponseVo<>(true, "결제 성공", true));
   }
 
-  // TODO : 구매한 상품 구현
+  // 구매한 상품 조회 API
+  @Operation(summary = "구매한 상품 조회", description = "구매한 상품 조회 API 입니다.")
+  @GetMapping("/info")
+  public ResponseEntity<ResponseVo<List<ItemVo>>> getItemBought(HttpServletRequest req)
+      throws Exception {
+
+    List<ItemVo> voList = ordersService.getItemBought(req);
+
+    return ResponseEntity.ok(new ResponseVo<>(true, "결제 성공", voList));
+  }
 
 }

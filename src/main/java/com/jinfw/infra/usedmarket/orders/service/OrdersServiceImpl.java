@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.jinfw.infra.usedmarket.common.constants.CommonCode.ItemStatusCode;
 import com.jinfw.infra.usedmarket.common.constants.CommonCode.OrderStatusCode;
+import com.jinfw.infra.usedmarket.common.util.UtilDtoConverter;
+import com.jinfw.infra.usedmarket.item.dto.ItemVo;
 import com.jinfw.infra.usedmarket.item.entity.Item;
 import com.jinfw.infra.usedmarket.item.service.ItemServiceImpl;
 import com.jinfw.infra.usedmarket.orders.entity.Orders;
@@ -24,6 +26,7 @@ public class OrdersServiceImpl {
   private final WishlistRepository wishlistRepository;
   private final UserServiceImpl userService;
   private final ItemServiceImpl itemServiceImpl;
+  private final UtilDtoConverter dtoConverter;
 
   /**
    * 상품 결제 함수
@@ -58,7 +61,25 @@ public class OrdersServiceImpl {
       order.setItemSeq(item);
       order.setOrderStateCode(OrderStatusCode.COMPLETED);
       ordersRepository.save(order);
+
+      wishlistRepository.findByUserSeqAndItemSeq(user, item).ifPresent(wishlistRepository::delete);
     }
   }
+
+  /**
+   * 구매한 상품 조회 함수
+   * 
+   * @param req http 헤더
+   * @return List<ItemVo>
+   * @throws Exception
+   */
+  public List<ItemVo> getItemBought(HttpServletRequest req) throws Exception {
+    User user = userService.getUserFromRequest(req);
+    List<Orders> orders = ordersRepository.findByUserSeq(user);
+    List<Item> itemList = orders.stream().map(order -> order.getItemSeq()).toList();
+
+    return dtoConverter.toItemVoList(itemList);
+  }
+
 
 }

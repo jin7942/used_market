@@ -77,7 +77,7 @@ public class ItemController {
     return ResponseEntity.ok(res);
   }
 
-  // 사용자가 판매중인 상품 조회 API
+  // 사용자가 판매한 상품 조회 API
   @Operation(summary = "사용자가 판매한 상품 조회", description = "사용자가 판매한 상품을 조회 합니다.")
   @GetMapping("/sold")
   public ResponseEntity<ResponseVo<List<ItemVo>>> getItemSoldByUser(HttpServletRequest req)

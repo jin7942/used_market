@@ -4,8 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.jinfw.infra.usedmarket.img.dto.ImguploadVo;
-import com.jinfw.infra.usedmarket.img.repository.ImguploadRepository;
+import com.jinfw.infra.usedmarket.common.util.UtilDtoConverter;
 import com.jinfw.infra.usedmarket.item.dto.ItemVo;
 import com.jinfw.infra.usedmarket.item.entity.Item;
 import com.jinfw.infra.usedmarket.item.service.ItemServiceImpl;
@@ -23,7 +22,7 @@ public class WishlistServiceImpl {
   private final WishlistRepository wishlistRepository;
   private final UserServiceImpl userService;
   private final ItemServiceImpl itemService;
-  private final ImguploadRepository imguploadRepository;
+  private final UtilDtoConverter dtoConverter;
 
   /**
    * 찜하기 토글 함수
@@ -62,29 +61,13 @@ public class WishlistServiceImpl {
    * @return List<ItemVo>
    * @throws Exception
    */
-  @Transactional(readOnly = true)
   public List<ItemVo> getWishlist(HttpServletRequest req) throws Exception {
     User user = userService.getUserFromRequest(req);
 
     List<Wishlist> wishlist = wishlistRepository.findByUserSeq(user);
+    List<Item> itemList = wishlist.stream().map(wish -> wish.getItemSeq()).toList();
 
-    // 찜한 상품 리스트 추출 → ItemVo로 변환
-    return wishlist.stream().map(w -> {
-      Item item = w.getItemSeq();
-      // 썸네일 조회
-      ImguploadVo img = imguploadRepository.findThumbnailByImgPseq(item.getSeq(), "ITEM");
-      // 필요한 정보만 담은 Vo 생성
-      return new ItemVo(item.getSeq(), // PK
-          item.getUserSeq().getUserNickname(), // userNickname
-          item.getItemTitle(), // itemTitle
-          item.getItemDescription(), // itemDescription
-          item.getItemPrice(), // itemPrice
-          item.getUpdateDT(), // updateDT
-          img.getImgUploadPath(), // 이미지 주소
-          img.getImgUploadUuidName(), // 이미지 이름
-          img.getImgUploadExt() // 이미지 확장자
-      );
-    }).toList();
+    return dtoConverter.toItemVoList(itemList);
   }
 
   /**
