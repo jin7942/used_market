@@ -4,16 +4,14 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.jinfw.infra.usedmarket.common.constants.CommonCode.OrderStatusCode;
-import com.jinfw.infra.usedmarket.common.util.UtilDtoConverter;
-import com.jinfw.infra.usedmarket.common.util.UtilJwt;
 import com.jinfw.infra.usedmarket.item.entity.Item;
-import com.jinfw.infra.usedmarket.item.repository.ItemRepository;
+import com.jinfw.infra.usedmarket.item.service.ItemServiceImpl;
 import com.jinfw.infra.usedmarket.orders.entity.Orders;
 import com.jinfw.infra.usedmarket.orders.entity.Wishlist;
 import com.jinfw.infra.usedmarket.orders.repository.OrdersRepository;
 import com.jinfw.infra.usedmarket.orders.repository.WishlistRepository;
 import com.jinfw.infra.usedmarket.user.entity.User;
-import com.jinfw.infra.usedmarket.user.repository.UserRepository;
+import com.jinfw.infra.usedmarket.user.service.UserServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
@@ -23,11 +21,8 @@ public class OrdersServiceImpl {
 
   private final OrdersRepository ordersRepository;
   private final WishlistRepository wishlistRepository;
-  private final WishlistServiceImpl wishlistServiceImpl;
-  private final UserRepository userRepository;
-  private final ItemRepository itemRepository;
-  private final UtilDtoConverter dtoConverter; // DTO 변환 유틸
-  private final UtilJwt utilJwt;
+  private final UserServiceImpl userService;
+  private final ItemServiceImpl itemServiceImpl;
 
   /**
    * 상품 결제 함수
@@ -38,10 +33,10 @@ public class OrdersServiceImpl {
    */
   @Transactional
   public void instOrders(List<Integer> itemSeqList, HttpServletRequest req) throws Exception {
-    User user = wishlistServiceImpl.getUserFromRequest(req);
+    User user = userService.getUserFromRequest(req);
 
     for (int itemSeq : itemSeqList) {
-      Item item = wishlistServiceImpl.getItemById(itemSeq);
+      Item item = itemServiceImpl.getItemById(itemSeq);
 
       // 1. 찜 처리 (이미 찜했으면 넘어감)
       wishlistRepository.findByUserSeqAndItemSeq(user, item).orElseGet(() -> {

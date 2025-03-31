@@ -1,7 +1,7 @@
 package com.jinfw.infra.usedmarket.item.service;
 
+import java.util.List;
 import org.springframework.stereotype.Service;
-import com.jinfw.infra.usedmarket.common.exception.InvalidLoginException;
 import com.jinfw.infra.usedmarket.common.util.UtilDtoConverter;
 import com.jinfw.infra.usedmarket.common.util.UtilJwt;
 import com.jinfw.infra.usedmarket.item.dto.ItemDto;
@@ -11,6 +11,7 @@ import com.jinfw.infra.usedmarket.item.entity.Item;
 import com.jinfw.infra.usedmarket.item.repository.ItemRepository;
 import com.jinfw.infra.usedmarket.user.entity.User;
 import com.jinfw.infra.usedmarket.user.repository.UserRepository;
+import com.jinfw.infra.usedmarket.user.service.UserServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -21,8 +22,19 @@ public class ItemServiceImpl {
 
   private final ItemRepository itemRepository;
   private final UserRepository userRepository;
+  private final UserServiceImpl userService;
   private final UtilDtoConverter dtoConverter; // DTO 변환 유틸
   private final UtilJwt utilJwt;
+
+  /**
+   * itemSeq로 아이템 조회 함수
+   * 
+   * @param itemSeq
+   * @return Item 객체
+   */
+  public Item getItemById(int itemSeq) {
+    return itemRepository.findById(itemSeq).orElseThrow(() -> new RuntimeException("상품 없음"));
+  }
 
   /**
    * 상품 등록 함수
@@ -32,9 +44,7 @@ public class ItemServiceImpl {
    */
   public int instItem(ItemDto dto, HttpServletRequest req) throws Exception {
     // 토큰에서 이메일 추출
-    String email = utilJwt.extractUserEmailFromRequest(req);
-    User user = userRepository.findByUserEmail(email)
-        .orElseThrow(() -> new InvalidLoginException("해당 이메일에 대한 사용자를 찾을 수 없습니다."));
+    User user = userService.getUserFromRequest(req);
 
     Item item = dtoConverter.toEntity(dto, Item.class);
     item.setUserSeq(user);
@@ -71,6 +81,10 @@ public class ItemServiceImpl {
     vo.setUserNickname(user.getUserNickname());
 
     return vo;
+  }
+
+  public List<ItemVo> getItemSelling(HttpServletRequest req) throws Exception {
+
   }
 
 }

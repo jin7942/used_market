@@ -1,6 +1,9 @@
 package com.jinfw.infra.usedmarket.user.controller;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,9 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jinfw.infra.usedmarket.common.dto.ResponseVo;
 import com.jinfw.infra.usedmarket.user.dto.UserDto;
 import com.jinfw.infra.usedmarket.user.dto.UserVo;
+import com.jinfw.infra.usedmarket.user.entity.User;
 import com.jinfw.infra.usedmarket.user.service.UserServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
 
@@ -67,4 +72,22 @@ public class UserController {
 
     return ResponseEntity.ok(res);
   }
+
+  // 유저 기본정보 조회 API
+  @Operation(summary = "유저 기본 정보 조회", description = "사용자의 기본 정보를 조회 합니다.")
+  @GetMapping("/info")
+  public ResponseEntity<ResponseVo<Map<String, Object>>> getUserInfo(HttpServletRequest req)
+      throws Exception {
+    User user = userService.getUserInfo(req);
+    Map<String, Object> result = new HashMap<>();
+
+    result.put("userEmail", user.getUserEmail());
+    result.put("userNickname", user.getUserNickname());
+    result.put("userProfileImg", user.getUserProfileImg());
+
+    ResponseVo<Map<String, Object>> res = new ResponseVo<>(true, "사용자 정보 조회 성공", result);
+
+    return ResponseEntity.ok(res);
+  }
+
 }

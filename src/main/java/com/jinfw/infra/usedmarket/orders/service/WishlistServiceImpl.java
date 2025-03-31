@@ -4,19 +4,15 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.jinfw.infra.usedmarket.common.exception.InvalidLoginException;
-import com.jinfw.infra.usedmarket.common.util.UtilDtoConverter;
-import com.jinfw.infra.usedmarket.common.util.UtilJwt;
 import com.jinfw.infra.usedmarket.img.dto.ImguploadVo;
 import com.jinfw.infra.usedmarket.img.repository.ImguploadRepository;
 import com.jinfw.infra.usedmarket.item.dto.ItemVo;
 import com.jinfw.infra.usedmarket.item.entity.Item;
-import com.jinfw.infra.usedmarket.item.repository.ItemRepository;
+import com.jinfw.infra.usedmarket.item.service.ItemServiceImpl;
 import com.jinfw.infra.usedmarket.orders.entity.Wishlist;
-import com.jinfw.infra.usedmarket.orders.repository.OrdersRepository;
 import com.jinfw.infra.usedmarket.orders.repository.WishlistRepository;
 import com.jinfw.infra.usedmarket.user.entity.User;
-import com.jinfw.infra.usedmarket.user.repository.UserRepository;
+import com.jinfw.infra.usedmarket.user.service.UserServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
@@ -24,35 +20,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class WishlistServiceImpl {
 
-  private final OrdersRepository ordersRepository;
   private final WishlistRepository wishlistRepository;
-  private final UserRepository userRepository;
+  private final UserServiceImpl userService;
+  private final ItemServiceImpl itemService;
   private final ImguploadRepository imguploadRepository;
-  private final ItemRepository itemRepository;
-  private final UtilDtoConverter dtoConverter; // DTO 변환 유틸
-  private final UtilJwt utilJwt;
-
-  /**
-   * http헤더에서 사용자 정보 추출 함수
-   * 
-   * @param req http 헤더
-   * @return User 객체
-   */
-  public User getUserFromRequest(HttpServletRequest req) {
-    String email = utilJwt.extractUserEmailFromRequest(req);
-    return userRepository.findByUserEmail(email)
-        .orElseThrow(() -> new InvalidLoginException("사용자 없음"));
-  }
-
-  /**
-   * itemSeq로 아이템 조회 함수
-   * 
-   * @param itemSeq
-   * @return Item 객체
-   */
-  public Item getItemById(int itemSeq) {
-    return itemRepository.findById(itemSeq).orElseThrow(() -> new RuntimeException("상품 없음"));
-  }
 
   /**
    * 찜하기 토글 함수
@@ -64,8 +35,8 @@ public class WishlistServiceImpl {
    */
   @Transactional
   public boolean toggleWishlist(int itemSeq, HttpServletRequest req) throws Exception {
-    User user = getUserFromRequest(req);
-    Item item = getItemById(itemSeq);
+    User user = userService.getUserFromRequest(req);
+    Item item = itemService.getItemById(itemSeq);
 
     Optional<Wishlist> existing = wishlistRepository.findByUserSeqAndItemSeq(user, item);
 
@@ -93,7 +64,7 @@ public class WishlistServiceImpl {
    */
   @Transactional(readOnly = true)
   public List<ItemVo> getWishlist(HttpServletRequest req) throws Exception {
-    User user = getUserFromRequest(req);
+    User user = userService.getUserFromRequest(req);
 
     List<Wishlist> wishlist = wishlistRepository.findByUserSeq(user);
 
@@ -124,7 +95,7 @@ public class WishlistServiceImpl {
    * @throws Exception
    */
   public int getWishlistCount(HttpServletRequest req) throws Exception {
-    User user = getUserFromRequest(req);
+    User user = userService.getUserFromRequest(req);
 
     return wishlistRepository.countByUserSeq(user);
   }
@@ -138,8 +109,8 @@ public class WishlistServiceImpl {
    * @throws Exception
    */
   public boolean checkIfWished(int itemSeq, HttpServletRequest req) throws Exception {
-    User user = getUserFromRequest(req);
-    Item item = getItemById(itemSeq);
+    User user = userService.getUserFromRequest(req);
+    Item item = itemService.getItemById(itemSeq);
 
     return wishlistRepository.existsByUserSeqAndItemSeq(user, item);
   }
