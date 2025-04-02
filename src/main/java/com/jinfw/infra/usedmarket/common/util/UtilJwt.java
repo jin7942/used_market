@@ -31,7 +31,7 @@ public class UtilJwt {
   }
 
   /**
-   * JWT 토큰에서 사용자 시퀀스 추출
+   * JWT 토큰에서 사용자 이메일 추출
    * 
    * @param token JWT 토큰
    * @return userEmail 유저 이메일

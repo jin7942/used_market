@@ -12,6 +12,6 @@ public interface NotificationRepository extends JpaRepository<Notification, Inte
   List<Notification> findByUserSeqOrderByCreateDTDesc(User user);
 
   // 안 읽은 알림만
-  List<Notification> findByUserSeqAndNotificationReadNY(User user, boolean readNY);
+  List<Notification> findByUserSeqAndNotificationIsReadNY(User user, boolean readNY);
 
 }

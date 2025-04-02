@@ -47,7 +47,7 @@ public class Notification extends BaseEntity {
   private String notificationMessage;
 
   // 알림 수신 여부
-  @Column(name = "notificationReadNY", nullable = false)
-  private boolean notificationReadNY = false;
+  @Column(name = "notificationIsReadNY", nullable = false)
+  private boolean notificationIsReadNY = false;
 
 }

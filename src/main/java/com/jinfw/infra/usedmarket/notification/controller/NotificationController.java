@@ -7,18 +7,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import com.jinfw.infra.usedmarket.common.dto.ResponseVo;
 import com.jinfw.infra.usedmarket.notification.dto.NotificationVo;
 import com.jinfw.infra.usedmarket.notification.service.NotificationServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
+@Tag(name = "Notification API", description = "알림, SSE 관련 API")
 @RestController
+@RequestMapping("/api/notification")
 @RequiredArgsConstructor
-@RequestMapping("/notification")
 public class NotificationController {
 
   private final NotificationServiceImpl notificationService;
@@ -26,8 +29,8 @@ public class NotificationController {
   // SSE 커넥트 API
   @Operation(summary = "sse 연결", description = "sse 커넥트 API 입니다.")
   @GetMapping("/sse/connect")
-  public SseEmitter connect(HttpServletRequest req) throws Exception {
-    return notificationService.connect(req);
+  public SseEmitter connect(@RequestParam String token) throws Exception {
+    return notificationService.connect(token);
   }
 
   // 전체 알림 조회 API

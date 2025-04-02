@@ -17,6 +17,4 @@ public interface UserRepository extends JpaRepository<User, Integer> {
   // 이메일을 기준으로 사용자 찾기
   Optional<User> findByUserEmail(String email);
 
-
-
 }

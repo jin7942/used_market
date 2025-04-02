@@ -9,12 +9,15 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import com.jinfw.infra.usedmarket.common.constants.CommonCode.NotificationTypeCode;
 import com.jinfw.infra.usedmarket.common.dto.ResponseVo;
+import com.jinfw.infra.usedmarket.common.exception.InvalidLoginException;
 import com.jinfw.infra.usedmarket.common.util.UtilDtoConverter;
+import com.jinfw.infra.usedmarket.common.util.UtilJwt;
 import com.jinfw.infra.usedmarket.item.entity.Item;
 import com.jinfw.infra.usedmarket.notification.dto.NotificationVo;
 import com.jinfw.infra.usedmarket.notification.entity.Notification;
 import com.jinfw.infra.usedmarket.notification.repository.NotificationRepository;
 import com.jinfw.infra.usedmarket.user.entity.User;
+import com.jinfw.infra.usedmarket.user.repository.UserRepository;
 import com.jinfw.infra.usedmarket.user.service.UserServiceImpl;
 import io.jsonwebtoken.io.IOException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,7 +29,9 @@ public class NotificationServiceImpl {
 
   private final NotificationRepository notificationRepository;
   private final UserServiceImpl userService;
+  private final UserRepository userRepository;
   private final UtilDtoConverter dtoConverter;
+  private final UtilJwt utilJwt;
   private final Map<String, SseEmitter> emitters = new ConcurrentHashMap<>();
 
   /**
@@ -36,8 +41,10 @@ public class NotificationServiceImpl {
    * @return
    * @throws Exception
    */
-  public SseEmitter connect(HttpServletRequest req) throws Exception {
-    User user = userService.getUserFromRequest(req);
+  public SseEmitter connect(String token) throws Exception {
+    String email = utilJwt.extractUserEmail(token);
+    User user = userRepository.findByUserEmail(email)
+        .orElseThrow(() -> new InvalidLoginException("이메일 또는 비밀번호가 올바르지 않습니다."));;
 
     SseEmitter emitter = new SseEmitter(60 * 60 * 1000L); // 1시간
     emitters.put(user.getUserEmail(), emitter);
@@ -130,7 +137,7 @@ public class NotificationServiceImpl {
       throws Exception {
     User user = userService.getUserFromRequest(req);
     List<Notification> notificationList =
-        notificationRepository.findByUserSeqAndNotificationReadNY(user, false);
+        notificationRepository.findByUserSeqAndNotificationIsReadNY(user, false);
 
     return dtoConverter.toDtoList(notificationList, NotificationVo.class);
   }
@@ -157,7 +164,7 @@ public class NotificationServiceImpl {
         throw new AccessDeniedException("권한 없음");
       }
 
-      notification.setNotificationReadNY(true); // 읽음 처리
+      notification.setNotificationIsReadNY(true); // 읽음 처리
     }
   }
 
