@@ -35,7 +35,7 @@ public class Notification extends BaseEntity {
 
   @ManyToOne
   @JoinColumn(name = "user_seq", nullable = false) // FK
-  private User userSeq; // 보낸사람
+  private User userSeq;
 
   // 알림 타입(공통 코드)
   @Enumerated(EnumType.STRING)
