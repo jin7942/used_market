@@ -93,22 +93,15 @@ public class NotificationServiceImpl {
   public void generateNotification(Item item, User sender, User receiver,
       NotificationTypeCode typeCode, String message) throws Exception {
     Notification notification = new Notification();
+    notification.setItemSeq(item);
     notification.setUserSeq(receiver);
     notification.setNotificationTypeCode(typeCode);
     notification.setNotificationMessage(message);
 
     notificationRepository.save(notification);
 
-    NotificationVo vo = new NotificationVo(item.getSeq(), // 상품 기본 키
-        item.getItemTitle(), // 상품 제목
-        sender.getUserNickname(), // 유저 닉네임
-        notification.getNotificationMessage(), // 알림 메시지
-        notification.getNotificationTypeCode(), // 알림 타입
-        false, // 수신 여부
-        notification.getUpdateDT()); // 발신일
-
     // 알림 발송
-    send(receiver, vo);
+    send(receiver, dtoConverter.toDto(notification, NotificationVo.class));
   }
 
   /**
@@ -192,6 +185,19 @@ public class NotificationServiceImpl {
 
       notificationRepository.delete(notification);
     }
+  }
+
+  /**
+   * 알림 카운트 함수
+   * 
+   * @param req http 헤더
+   * @return int count
+   * @throws Exception
+   */
+  public int getNotificationCount(HttpServletRequest req) throws Exception {
+    User user = userService.getUserFromRequest(req);
+
+    return notificationRepository.countByUserSeqAndNotificationIsReadNY(user, false);
   }
 
 }

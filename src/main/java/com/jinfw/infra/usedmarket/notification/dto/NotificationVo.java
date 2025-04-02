@@ -4,12 +4,16 @@ import java.time.LocalDateTime;
 import com.jinfw.infra.usedmarket.common.constants.CommonCode.NotificationTypeCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @AllArgsConstructor
 public class NotificationVo {
+
+  private int seq;
 
   // 상품 정보
   private int itemSeq;
@@ -25,7 +29,7 @@ public class NotificationVo {
   private NotificationTypeCode notificationTypeCode;
 
   // 알림 수신 여부
-  private boolean notificationReadNY = false;
+  private boolean notificationIsReadNY = false;
 
   private LocalDateTime updateDT;
 

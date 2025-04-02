@@ -61,7 +61,7 @@ public class NotificationController {
   public ResponseEntity<ResponseVo<Boolean>> markAsRead(
       @RequestBody List<Integer> notificationSeqList, HttpServletRequest req) throws Exception {
 
-    markAsRead(notificationSeqList, req);
+    notificationService.markAsRead(notificationSeqList, req);
 
     return ResponseEntity.ok(new ResponseVo<>(true, "읽음 처리 성공", true));
   }
@@ -75,6 +75,17 @@ public class NotificationController {
     notificationService.deleteNotification(notificationSeqList, req);
 
     return ResponseEntity.ok(new ResponseVo<>(true, "알림 삭제 완료", null));
+  }
+
+  // 알림 카운트 API
+  @Operation(summary = "알림 카운트", description = "알림 카운트 API 입니다.")
+  @GetMapping("/count")
+  public ResponseEntity<ResponseVo<Integer>> getNotificationCount(HttpServletRequest req)
+      throws Exception {
+
+    int count = notificationService.getNotificationCount(req);
+
+    return ResponseEntity.ok(new ResponseVo<>(true, "카운트 조회 성공", count));
   }
 
 }

@@ -2,6 +2,7 @@ package com.jinfw.infra.usedmarket.notification.entity;
 
 import com.jinfw.infra.usedmarket.common.base.BaseEntity;
 import com.jinfw.infra.usedmarket.common.constants.CommonCode.NotificationTypeCode;
+import com.jinfw.infra.usedmarket.item.entity.Item;
 import com.jinfw.infra.usedmarket.user.entity.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -36,6 +37,10 @@ public class Notification extends BaseEntity {
   @ManyToOne
   @JoinColumn(name = "user_seq", nullable = false) // FK
   private User userSeq;
+
+  @ManyToOne
+  @JoinColumn(name = "item_seq", nullable = true) // FK
+  private Item itemSeq;
 
   // 알림 타입(공통 코드)
   @Enumerated(EnumType.STRING)

@@ -14,4 +14,6 @@ public interface NotificationRepository extends JpaRepository<Notification, Inte
   // 안 읽은 알림만
   List<Notification> findByUserSeqAndNotificationIsReadNY(User user, boolean readNY);
 
+  int countByUserSeqAndNotificationIsReadNY(User user, boolean readNY);
+
 }
