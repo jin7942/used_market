@@ -1,4 +1,4 @@
-package com.jinfw.infra.usedmarket.notification;
+package com.jinfw.infra.usedmarket.notification.entity;
 
 import com.jinfw.infra.usedmarket.common.base.BaseEntity;
 import com.jinfw.infra.usedmarket.common.constants.CommonCode.NotificationTypeCode;
