@@ -10,7 +10,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import com.jinfw.infra.usedmarket.common.constants.CommonCode.NotificationTypeCode;
 import com.jinfw.infra.usedmarket.common.dto.ResponseVo;
 import com.jinfw.infra.usedmarket.common.util.UtilDtoConverter;
-import com.jinfw.infra.usedmarket.item.service.ItemServiceImpl;
+import com.jinfw.infra.usedmarket.item.entity.Item;
 import com.jinfw.infra.usedmarket.notification.dto.NotificationVo;
 import com.jinfw.infra.usedmarket.notification.entity.Notification;
 import com.jinfw.infra.usedmarket.notification.repository.NotificationRepository;
@@ -26,7 +26,6 @@ public class NotificationServiceImpl {
 
   private final NotificationRepository notificationRepository;
   private final UserServiceImpl userService;
-  private final ItemServiceImpl itemServiceImpl;
   private final UtilDtoConverter dtoConverter;
   private final Map<String, SseEmitter> emitters = new ConcurrentHashMap<>();
 
@@ -84,18 +83,25 @@ public class NotificationServiceImpl {
    * @throws Exception
    */
   @Transactional
-  public void instNotification(User user, NotificationTypeCode typeCode, String message)
-      throws Exception {
+  public void generateNotification(Item item, User sender, User receiver,
+      NotificationTypeCode typeCode, String message) throws Exception {
     Notification notification = new Notification();
-    notification.setUserSeq(user);
+    notification.setUserSeq(receiver);
     notification.setNotificationTypeCode(typeCode);
     notification.setNotificationMessage(message);
 
     notificationRepository.save(notification);
 
-    NotificationVo vo = new NotificationVo(notification.getNotificationMessage(),
-        notification.getNotificationTypeCode(), false, notification.getUpdateDT());
-    send(user, vo);
+    NotificationVo vo = new NotificationVo(item.getSeq(), // 상품 기본 키
+        item.getItemTitle(), // 상품 제목
+        sender.getUserNickname(), // 유저 닉네임
+        notification.getNotificationMessage(), // 알림 메시지
+        notification.getNotificationTypeCode(), // 알림 타입
+        false, // 수신 여부
+        notification.getUpdateDT()); // 발신일
+
+    // 알림 발송
+    send(receiver, vo);
   }
 
   /**

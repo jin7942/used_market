@@ -11,6 +11,13 @@ import lombok.Setter;
 @AllArgsConstructor
 public class NotificationVo {
 
+  // 상품 정보
+  private int itemSeq;
+  private String itemTitle;
+
+  // 유저 닉네임
+  private String userNickname;
+
   // 알림 메시지
   private String notificationMessage;
 

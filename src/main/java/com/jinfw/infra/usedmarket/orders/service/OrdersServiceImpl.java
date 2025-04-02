@@ -4,11 +4,13 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.jinfw.infra.usedmarket.common.constants.CommonCode.ItemStatusCode;
+import com.jinfw.infra.usedmarket.common.constants.CommonCode.NotificationTypeCode;
 import com.jinfw.infra.usedmarket.common.constants.CommonCode.OrderStatusCode;
 import com.jinfw.infra.usedmarket.common.util.UtilDtoConverter;
 import com.jinfw.infra.usedmarket.item.dto.ItemVo;
 import com.jinfw.infra.usedmarket.item.entity.Item;
 import com.jinfw.infra.usedmarket.item.service.ItemServiceImpl;
+import com.jinfw.infra.usedmarket.notification.service.NotificationServiceImpl;
 import com.jinfw.infra.usedmarket.orders.entity.Orders;
 import com.jinfw.infra.usedmarket.orders.entity.Wishlist;
 import com.jinfw.infra.usedmarket.orders.repository.OrdersRepository;
@@ -23,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 public class OrdersServiceImpl {
 
   private final OrdersRepository ordersRepository;
+  private final NotificationServiceImpl notificationService;
   private final WishlistRepository wishlistRepository;
   private final UserServiceImpl userService;
   private final ItemServiceImpl itemServiceImpl;
@@ -42,7 +45,7 @@ public class OrdersServiceImpl {
     for (int itemSeq : itemSeqList) {
       Item item = itemServiceImpl.getItemById(itemSeq);
 
-      // 1. 찜 처리 (이미 찜했으면 넘어감)
+      // 찜 처리 (이미 찜했으면 넘어감)
       wishlistRepository.findByUserSeqAndItemSeq(user, item).orElseGet(() -> {
         Wishlist wish = new Wishlist();
         wish.setUserSeq(user);
@@ -50,7 +53,7 @@ public class OrdersServiceImpl {
         return wishlistRepository.save(wish);
       });
 
-      // 2. 결제 처리 (중복 결제 방지)
+      // 결제 처리 (중복 결제 방지)
       if (ordersRepository.existsByUserSeqAndItemSeq(user, item)) {
         continue; // 또는 로그만 남기고 넘어감
       }
@@ -63,6 +66,11 @@ public class OrdersServiceImpl {
       ordersRepository.save(order);
 
       wishlistRepository.findByUserSeqAndItemSeq(user, item).ifPresent(wishlistRepository::delete);
+
+      // 알림 전송
+      User seller = item.getUserSeq();
+      notificationService.generateNotification(item, user, seller, NotificationTypeCode.NORMAL,
+          user.getUserNickname() + " 님이 " + item.getItemTitle() + " 을 구매하였습니다.");
     }
   }
 

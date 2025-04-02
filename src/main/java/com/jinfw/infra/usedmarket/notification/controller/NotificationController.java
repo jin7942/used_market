@@ -57,6 +57,7 @@ public class NotificationController {
   @PostMapping("/markAsRead")
   public ResponseEntity<ResponseVo<Boolean>> markAsRead(
       @RequestBody List<Integer> notificationSeqList, HttpServletRequest req) throws Exception {
+
     markAsRead(notificationSeqList, req);
 
     return ResponseEntity.ok(new ResponseVo<>(true, "읽음 처리 성공", true));
@@ -67,7 +68,9 @@ public class NotificationController {
   @DeleteMapping("/remove")
   public ResponseEntity<ResponseVo<String>> deleteNotifications(
       @RequestBody List<Integer> notificationSeqList, HttpServletRequest req) throws Exception {
+
     notificationService.deleteNotification(notificationSeqList, req);
+
     return ResponseEntity.ok(new ResponseVo<>(true, "알림 삭제 완료", null));
   }
 

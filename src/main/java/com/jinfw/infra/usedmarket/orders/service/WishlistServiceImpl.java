@@ -4,10 +4,12 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.jinfw.infra.usedmarket.common.constants.CommonCode.NotificationTypeCode;
 import com.jinfw.infra.usedmarket.common.util.UtilDtoConverter;
 import com.jinfw.infra.usedmarket.item.dto.ItemVo;
 import com.jinfw.infra.usedmarket.item.entity.Item;
 import com.jinfw.infra.usedmarket.item.service.ItemServiceImpl;
+import com.jinfw.infra.usedmarket.notification.service.NotificationServiceImpl;
 import com.jinfw.infra.usedmarket.orders.entity.Wishlist;
 import com.jinfw.infra.usedmarket.orders.repository.WishlistRepository;
 import com.jinfw.infra.usedmarket.user.entity.User;
@@ -20,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 public class WishlistServiceImpl {
 
   private final WishlistRepository wishlistRepository;
+  private final NotificationServiceImpl notificationService;
   private final UserServiceImpl userService;
   private final ItemServiceImpl itemService;
   private final UtilDtoConverter dtoConverter;
@@ -49,6 +52,12 @@ public class WishlistServiceImpl {
       wishlist.setUserSeq(user);
       wishlist.setItemSeq(item);
       wishlistRepository.save(wishlist);
+
+      // 판매자에게 알림 전송
+      User seller = item.getUserSeq();
+      notificationService.generateNotification(item, user, seller, NotificationTypeCode.NORMAL,
+          user.getUserNickname() + " 님이 " + item.getItemTitle() + " 에 관심을 가졌습니다.");
+
       return true; // 찜 등록
     }
 
