@@ -25,7 +25,13 @@ public class SecurityConfig {
         .csrf(csrf -> csrf.disable())
         .sessionManagement(
             session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        .authorizeHttpRequests(auth -> auth.requestMatchers("/**").permitAll() // 모든 요청 허용(개발용)
+        .authorizeHttpRequests(auth -> auth.requestMatchers("/api/users/auth/login", // 로그인
+            "/api/users/auth/register", // 회원가입
+            "/api/users/auth/check-email", // 이메일 중복 체크
+            "/api/users/auth/check-nickname", // 닉네임 중복 쳌
+            "/api/items/list" // 메인페이지 상품 조회
+
+        ).permitAll() // 모든 요청 허용(개발용)
             .requestMatchers("/api/admin/**").hasRole("ADMIN").anyRequest().authenticated())
         .httpBasic(httpBasic -> httpBasic.disable())
         .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
