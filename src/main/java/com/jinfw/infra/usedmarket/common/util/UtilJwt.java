@@ -2,10 +2,15 @@ package com.jinfw.infra.usedmarket.common.util;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
+
 import javax.crypto.SecretKey;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
+
 import com.jinfw.infra.usedmarket.common.exception.InvalidLoginException;
+
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,8 +18,8 @@ import jakarta.servlet.http.HttpServletRequest;
 @Component
 public class UtilJwt {
 
-  // TODO: 비밀키는 외부에서 주입받도록 변경
-  private static final String SECRET_KEY = "SEXY_GUY_OF_THE_WORLD_23894723894820"; // 토큰 서명 키
+  @Value("${jwt.secret}")
+  private String SECRET_KEY;// 토큰 서명 키
   private static final long EXPIRATION_TIME = 1000 * 60 * 60 * 1; // 1시간
 
   private final SecretKey key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
