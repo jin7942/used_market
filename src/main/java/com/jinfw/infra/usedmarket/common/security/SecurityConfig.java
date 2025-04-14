@@ -29,7 +29,8 @@ public class SecurityConfig {
             "/api/users/auth/register", // 회원가입
             "/api/users/auth/check-email", // 이메일 중복 체크
             "/api/users/auth/check-nickname", // 닉네임 중복 쳌
-            "/api/items/list" // 메인페이지 상품 조회
+            "/api/items/list", // 메인페이지 상품 조회
+            "/swagger-ui.html/**" // api 문서 페이지
 
         ).permitAll() // 모든 요청 허용(개발용)
             .requestMatchers("/api/admin/**").hasRole("ADMIN").anyRequest().authenticated())
