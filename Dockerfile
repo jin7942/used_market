@@ -17,7 +17,7 @@ FROM openjdk:17-jdk-alpine
 WORKDIR /app
 
 # 빌드된 JAR 파일을 컨테이너로 복사
-COPY --from=builder /app/target/used-market.jar /app/used-market.jar
+COPY --from=builder /app/target/used-market-0.0.1-SNAPSHOT.jar /app/used-market.jar
 
 # `application.yml`을 Dockerfile에 포함시키지 않고, 외부에서 마운트하려면 이 부분을 생략하면 된다.
 # COPY src/main/resources/application.yml /app/config/application.yml
