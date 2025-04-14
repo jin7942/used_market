@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     
     <parent>
@@ -13,6 +15,7 @@
     <groupId>com.jin7942</groupId>
     <artifactId>used_market</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+
     <name>used_market</name>
     <description>Demo project for Spring Boot</description>
     
@@ -124,6 +127,8 @@
     </dependencies>
 
     <build>
+    	<finalName>used-market</finalName>
+    
         <plugins>
 
             <!-- Java 컴파일러 설정 (Lombok 처리 포함) -->
@@ -153,8 +158,9 @@
                     </excludes>
                 </configuration>
             </plugin>
-
+	        	
         </plugins>
+        
     </build>
 
 </project>
