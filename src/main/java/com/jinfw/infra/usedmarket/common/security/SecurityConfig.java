@@ -26,14 +26,13 @@ public class SecurityConfig {
 		http.cors(cors -> cors.configurationSource(corsConfigurationSource)) // CORS 설정 적용
 				.csrf(csrf -> csrf.disable())
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-				.authorizeHttpRequests(auth -> auth.requestMatchers("/api/users/auth/login", // 로그인
-						"/api/users/auth/register", // 회원가입
-						"/api/users/auth/check-email", // 이메일 중복 체크
-						"/api/users/auth/check-nickname", // 닉네임 중복 쳌
-						"/api/items/list", // 메인페이지 상품 조회
-						"/swagger-ui.html/**" // api 문서 페이지
-				).permitAll().requestMatchers(HttpMethod.OPTIONS, "/**").permitAll().requestMatchers("/api/admin/**")
-						.hasRole("ADMIN").anyRequest().authenticated())
+				.authorizeHttpRequests(auth -> auth
+					    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+					    .requestMatchers("/api/users/auth/**").permitAll()
+					    .requestMatchers("/api/items/**").permitAll()
+					    .requestMatchers("/swagger-ui.html/**").permitAll()
+					    .requestMatchers("/api/admin/**").hasRole("ADMIN")
+					    .anyRequest().authenticated())
 				.httpBasic(httpBasic -> httpBasic.disable())
 				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
