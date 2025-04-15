@@ -31,8 +31,7 @@ public class SecurityConfig {
 						.requestMatchers("/api/items/**").permitAll() // 메인페이지관련 허용
 						.requestMatchers("/swagger-ui.html/**").permitAll() // 문서 페이지
 						.requestMatchers("/api/admin/**").hasRole("ADMIN") // 관리자
-//					    .anyRequest().authenticated())
-						.requestMatchers("/**").permitAll())
+						.anyRequest().authenticated())
 				.httpBasic(httpBasic -> httpBasic.disable())
 				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
