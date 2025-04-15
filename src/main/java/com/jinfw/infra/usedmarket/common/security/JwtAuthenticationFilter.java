@@ -44,8 +44,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			return;
 		}
 
+		String token = null;
+		if (authHeader != null && authHeader.startsWith("Bearer ")) {
+			token = authHeader.substring(7);
+		} else if (request.getRequestURI().startsWith("/api/notification")) {
+			token = request.getParameter("token");
+		}
+
 		// 토큰 추출 및 검증
-		String token = authHeader.substring(7);
 		if (!utiljwt.validateToken(token)) {
 			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid or Expired Token");
 			return;
