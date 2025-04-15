@@ -31,6 +31,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			throws ServletException, IOException {
 		String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 		String path = request.getRequestURI();
+		String token = null;
 
 		// 화이트리스트는 필터 통과
 		if (WHITELIST.stream().anyMatch(path::startsWith)) {
@@ -38,31 +39,41 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			return;
 		}
 
-		// 인증이 필요한 요청인데 Authorization 헤더가 아예 없거나 잘못된 경우 → 차단
-		if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-			filterChain.doFilter(request, response); // 비인증 요청은 그대로 진행 (permitAll 에 한함)
-			return;
-		}
-
-		String token = null;
+		// 1. 헤더로 먼저 시도
 		if (authHeader != null && authHeader.startsWith("Bearer ")) {
 			token = authHeader.substring(7);
-		} else if (request.getRequestURI().startsWith("/api/notification")) {
+		}
+
+		// 2. 헤더가 없고, 특정 SSE 경로라면 쿼리 파라미터에서 시도
+		if (token == null && request.getRequestURI().startsWith("/api/notification")) {
 			token = request.getParameter("token");
 		}
 
-		// 토큰 추출 및 검증
+		// 화이트리스트는 필터 통과
+		if (WHITELIST.stream().anyMatch(path::startsWith)) {
+			filterChain.doFilter(request, response);
+			return;
+		}
+
+		// 3. 토큰 없으면 실패
+		if (token == null) {
+			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Missing Token");
+			return;
+		}
+
+		// 4. 검증
 		if (!utiljwt.validateToken(token)) {
 			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid or Expired Token");
 			return;
 		}
 
+		// 5. 인증 객체 주입
 		String userEmail = utiljwt.extractUserEmail(token);
 		UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userEmail, null,
 				List.of());
-
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
+		// 6. 다음 필터로 넘김
 		filterChain.doFilter(request, response);
 	}
 }
