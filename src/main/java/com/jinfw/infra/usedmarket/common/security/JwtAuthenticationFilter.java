@@ -30,6 +30,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 		String path = request.getRequestURI();
 
+		System.out.println("요청 경로: " + request.getRequestURI());
+		System.out.println("Authorization 헤더: " + authHeader);
+		System.out.println("필터 통과 여부: " + (WHITELIST.stream().anyMatch(path::startsWith)));
+
 		// 화이트리스트는 필터 통과
 		if (WHITELIST.stream().anyMatch(path::startsWith)) {
 			filterChain.doFilter(request, response);
