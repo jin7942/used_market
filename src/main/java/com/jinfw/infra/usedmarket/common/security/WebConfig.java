@@ -15,7 +15,7 @@ public class WebConfig implements WebMvcConfigurer {
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration config = new CorsConfiguration();
-		config.setAllowedOrigins(List.of("https://nextuse.jin7942.co.kr")); // 프론트엔드 주소
+		config.setAllowedOriginPatterns(List.of("https://*.jin7942.co.kr"));
 		config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS")); // 허용 메서드
 		config.setAllowedHeaders(List.of("*")); // 모든 요청 헤더 허용
 		config.setExposedHeaders(List.of("Authorization")); // 응답 헤더 노출

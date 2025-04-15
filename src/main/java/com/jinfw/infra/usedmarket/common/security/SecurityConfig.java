@@ -2,6 +2,7 @@ package com.jinfw.infra.usedmarket.common.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -31,7 +32,8 @@ public class SecurityConfig {
 						"/api/users/auth/check-nickname", // 닉네임 중복 쳌
 						"/api/items/list", // 메인페이지 상품 조회
 						"/swagger-ui.html/**" // api 문서 페이지
-				).permitAll().requestMatchers("/api/admin/**").hasRole("ADMIN").anyRequest().authenticated())
+				).permitAll().requestMatchers(HttpMethod.OPTIONS, "/**").permitAll().requestMatchers("/api/admin/**")
+						.hasRole("ADMIN").anyRequest().authenticated())
 				.httpBasic(httpBasic -> httpBasic.disable())
 				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
