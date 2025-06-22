@@ -13,6 +13,7 @@ import com.jinfw.infra.usedmarket.item.repository.ItemRepositoryCustom;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 
 /**
  * 네이티브 쿼리 구현 클래스
@@ -25,58 +26,80 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
 
 	@Override
 	@Transactional(readOnly = true)
-	public ItemListVo getItemList(int page, int size) {
+	public ItemListVo getItemList(int page, int size, String search) {
 		int offset = (page - 1) * size;
+		boolean hasSearch = search != null && !search.isBlank();
 
 		// 전체 게시글 수 조회 (totalElements)
-		String countSql = """
-				    SELECT COUNT(*) FROM item a
-				    JOIN imgupload b ON a.seq = b.imgPseq
-				    JOIN user c ON c.seq = a.user_seq
-				    WHERE b.imgUploadSort = 0
-				      AND b.imgUploadStateCode = 'ENABLED'
-				      AND b.imgUploadTypeCode = 'ITEM'
-				""";
+		StringBuilder countSql = new StringBuilder("""
+					SELECT COUNT(*) FROM item a
+					JOIN imgupload b ON a.seq = b.imgPseq
+					JOIN user c ON c.seq = a.user_seq
+					WHERE b.imgUploadSort = 0
+					  AND b.imgUploadStateCode = 'ENABLED'
+					  AND b.imgUploadTypeCode = 'ITEM'
+				""");
 
-		int totalElements = ((Number) em.createNativeQuery(countSql).getSingleResult()).intValue();
+		if (hasSearch) {
+			countSql.append(" AND a.itemTitle LIKE CONCAT('%', :search, '%')");
+		}
 
-		String sql = """
-				    SELECT
-				        a.seq,
-				        c.userNickname,
-				        a.itemTitle,
-				        a.itemDescription,
-				        a.itemPrice,
-				        a.updateDT,
-				        b.imgUploadPath,
-				        b.imgUploadUuidName,
-				        b.imgUploadExt
-				    FROM item a
-				    JOIN imgupload b ON a.seq = b.imgPseq
-				    JOIN user c ON c.seq = a.user_seq
-				    WHERE b.imgUploadSort = 0
-				      AND b.imgUploadStateCode = 'ENABLED'
-				      AND b.imgUploadTypeCode = 'ITEM'
-				    ORDER BY a.createDT DESC
-				    LIMIT %d OFFSET %d
-				""".formatted(size, offset);
+		Query countQuery = em.createNativeQuery(countSql.toString());
+		if (hasSearch) {
+			countQuery.setParameter("search", search);
+		}
+		int totalElements = ((Number) countQuery.getSingleResult()).intValue();
 
-		List<?> rows = em.createNativeQuery(sql).getResultList();
+		// 데이터 조회
+		StringBuilder sql = new StringBuilder("""
+					SELECT
+						a.seq,
+						c.userNickname,
+						a.itemTitle,
+						a.itemDescription,
+						a.itemPrice,
+						a.updateDT,
+						b.imgUploadPath,
+						b.imgUploadUuidName,
+						b.imgUploadExt
+					FROM item a
+					JOIN imgupload b ON a.seq = b.imgPseq
+					JOIN user c ON c.seq = a.user_seq
+					WHERE b.imgUploadSort = 0
+					  AND b.imgUploadStateCode = 'ENABLED'
+					  AND b.imgUploadTypeCode = 'ITEM'
+				""");
 
+		if (hasSearch) {
+			sql.append(" AND a.itemTitle LIKE CONCAT('%', :search, '%')");
+		}
+		sql.append(" ORDER BY a.createDT DESC LIMIT :limit OFFSET :offset");
+
+		Query dataQuery = em.createNativeQuery(sql.toString());
+		if (hasSearch) {
+			dataQuery.setParameter("search", search);
+		}
+		dataQuery.setParameter("limit", size);
+		dataQuery.setParameter("offset", offset);
+
+		List<?> rows = dataQuery.getResultList();
+
+		// List<ItemVo> 변환
 		List<ItemVo> voList = rows.stream().map(row -> {
 			Object[] obj = (Object[]) row;
 			return new ItemVo(((Number) obj[0]).intValue(), // item Pk
 					(String) obj[1], // userNickname
 					(String) obj[2], // itemTitle
-					(String) obj[3], // itemDescirption
+					(String) obj[3], // itemDescription
 					((Number) obj[4]).intValue(), // itemPrice
 					((Timestamp) obj[5]).toLocalDateTime(), // updateDT
 					(String) obj[6], // imgUploadPath
 					(String) obj[7], // imgUploadUuidName
 					(String) obj[8] // imgUploadExt
 			);
-		}).toList(); // List<ItemVo> 변환
+		}).toList();
 
+		// 페이징 정보 구성
 		int totalPages = (int) Math.ceil((double) totalElements / size);
 		PageInfoVo pageInfoVo = new PageInfoVo(page, size, totalElements, totalPages);
 

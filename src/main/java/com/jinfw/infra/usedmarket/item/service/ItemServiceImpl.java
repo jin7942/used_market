@@ -57,15 +57,16 @@ public class ItemServiceImpl {
 	}
 
 	/**
-	 * 상품 리스트 조회 함수
+	 * 상품 리스트 조회 및 검색 함수
 	 * 
-	 * @param page 현제 페이지
-	 * @param size 페이지당 항목 수
+	 * @param page   현제 페이지
+	 * @param size   페이지당 항목 수
+	 * @param search 검색어
 	 * @return List<ItemVo> 조회된 상품 리스트
 	 */
 	@Transactional(readOnly = true)
-	public ItemListVo getItemList(int page, int size) throws Exception {
-		return itemRepository.getItemList(page, size);
+	public ItemListVo getItemList(int page, int size, String search) throws Exception {
+		return itemRepository.getItemList(page, size, search);
 	}
 
 	/**
