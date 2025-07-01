@@ -27,7 +27,7 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
 	@Override
 	@Transactional(readOnly = true)
 	public ItemListVo getItemList(int page, int size, String search) {
-		int offset = (page - 1) * size;
+		int offset = Math.max(0, (page - 1) * size);
 		boolean hasSearch = search != null && !search.isBlank();
 
 		// 전체 게시글 수 조회 (totalElements)
