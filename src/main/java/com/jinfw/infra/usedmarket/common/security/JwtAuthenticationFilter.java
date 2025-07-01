@@ -23,9 +23,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 	private final UtilJwt utiljwt;
 
-	private static final List<String> WHITELIST = List.of("/api/users/auth/login", // 로그인
-			"/api/users/auth", "/api/items", "/swagger-ui.html", "/swagger-ui/**", "/swagger-ui/**", "/v3/api-docs/**",
-			"/docs/**", "/docs");
+	private static final List<String> WHITELIST = List.of("/api/users/auth/login", "/api/users/auth", "/api/items",
+			"/swagger-ui.html", "/swagger-ui", "/swagger-ui/", "/swagger-ui/**", "/v3/api-docs", "/v3/api-docs/",
+			"/v3/api-docs/**", "/swagger-resources", "/swagger-resources/**", "/webjars/**", "/docs", "/docs/");
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)

@@ -29,7 +29,8 @@ public class SecurityConfig {
 				.authorizeHttpRequests(auth -> auth.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // 옵셔널 허용
 						.requestMatchers("/api/users/auth/**").permitAll() // 인증요청 허용
 						.requestMatchers("/api/items/**").permitAll() // 메인페이지관련 허용
-						.requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/docs/**")
+						.requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/docs/**",
+								"/swagger-resources/**", "/webjars/**")
 						.permitAll().anyRequest().authenticated())
 				.httpBasic(httpBasic -> httpBasic.disable())
 				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
